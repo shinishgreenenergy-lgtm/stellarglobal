@@ -1,0 +1,182 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Marshal (Stellar GRC) design tokens — dark, warm-charcoal ground with an
+ * ochre accent. This is a fixed single-theme brand site, not a light/dark
+ * toggle, so these are set directly on :root rather than gated behind .dark.
+ */
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-sans);
+  --font-heading: var(--font-sans);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  /* Marshal brand ramp -> Tailwind utilities (bg-marshal-*, text-marshal-*, border-marshal-*) */
+  --color-marshal-bg: #121110;
+  --color-marshal-surface: #1c1a18;
+  --color-marshal-text: #f2efe9;
+  --color-marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
+  --color-marshal-section: #1e1a14;
+  --color-marshal-section-glow: #2e261a;
+  --color-marshal-section-ghost: #5e4517;
+
+  --color-marshal-neutral-100: #f7f5f1;
+  --color-marshal-neutral-200: #e8e4dc;
+  --color-marshal-neutral-300: #d2ccc1;
+  --color-marshal-neutral-400: #b0a99c;
+  --color-marshal-neutral-500: #8d8578;
+  --color-marshal-neutral-600: #6b6459;
+  --color-marshal-neutral-700: #4e483f;
+  --color-marshal-neutral-800: #35302a;
+  --color-marshal-neutral-900: #221f1b;
+
+  --color-marshal-accent: #d3a03a;
+  --color-marshal-accent-2: #e0b866;
+  --color-marshal-accent-100: #fdf6e6;
+  --color-marshal-accent-200: #f8e7bf;
+  --color-marshal-accent-300: #eed392;
+  --color-marshal-accent-400: #e2ba60;
+  --color-marshal-accent-500: #d3a03a;
+  --color-marshal-accent-600: #ad802a;
+  --color-marshal-accent-700: #86621f;
+  --color-marshal-accent-800: #5e4517;
+  --color-marshal-accent-900: #3d2d10;
+
+  --shadow-marshal-sm: 0 0 0 1px #35302a;
+  --shadow-marshal-md: 0 0 0 1px #4e483f, 0 6px 18px rgba(0, 0, 0, 0.6);
+  --shadow-marshal-lg: 0 0 0 1px #6b6459, 0 16px 40px rgba(0, 0, 0, 0.7);
+}
+
+:root {
+  --background: oklch(1 0 0);
+  --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.145 0 0);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.145 0 0);
+  --primary: oklch(0.205 0 0);
+  --primary-foreground: oklch(0.985 0 0);
+  --secondary: oklch(0.97 0 0);
+  --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
+  --muted-foreground: oklch(0.556 0 0);
+  --accent: oklch(0.97 0 0);
+  --accent-foreground: oklch(0.205 0 0);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: oklch(0.922 0 0);
+  --input: oklch(0.922 0 0);
+  --ring: oklch(0.708 0 0);
+  --chart-1: oklch(0.87 0 0);
+  --chart-2: oklch(0.556 0 0);
+  --chart-3: oklch(0.439 0 0);
+  --chart-4: oklch(0.371 0 0);
+  --chart-5: oklch(0.269 0 0);
+  --radius: 0.625rem;
+  --sidebar: oklch(0.985 0 0);
+  --sidebar-foreground: oklch(0.145 0 0);
+  --sidebar-primary: oklch(0.205 0 0);
+  --sidebar-primary-foreground: oklch(0.985 0 0);
+  --sidebar-accent: oklch(0.97 0 0);
+  --sidebar-accent-foreground: oklch(0.205 0 0);
+  --sidebar-border: oklch(0.922 0 0);
+  --sidebar-ring: oklch(0.708 0 0);
+}
+
+/*
+ * Marshal is always-dark: map the shadcn semantic tokens straight onto the
+ * brand ramp on :root (not .dark) so every shadcn primitive (Button,
+ * Accordion, NavigationMenu, Card, Input) inherits the brand palette
+ * without needing a `dark` class anywhere in the tree.
+ */
+:root {
+  --background: #121110;
+  --foreground: #f2efe9;
+  --card: #1c1a18;
+  --card-foreground: #f2efe9;
+  --popover: #1c1a18;
+  --popover-foreground: #f2efe9;
+  --primary: #f7f5f1;
+  --primary-foreground: #121110;
+  --secondary: #221f1b;
+  --secondary-foreground: #f2efe9;
+  --muted: #221f1b;
+  --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
+  --accent: #221f1b;
+  --accent-foreground: #f2efe9;
+  --destructive: oklch(0.704 0.191 22.216);
+  --border: #35302a;
+  --input: #35302a;
+  --ring: #d3a03a;
+  --radius: 0.875rem;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+  html {
+    @apply font-sans scroll-smooth;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Pill buttons per the Marshal spec — primary (off-white fill) / ghost (bordered) */
+  .btn-marshal-primary {
+    @apply inline-flex items-center justify-center rounded-full bg-marshal-neutral-100 px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-bg uppercase transition-colors hover:bg-white;
+  }
+  .btn-marshal-ghost {
+    @apply inline-flex items-center justify-center rounded-full border px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-text uppercase transition-colors hover:border-marshal-accent hover:text-marshal-accent;
+    border-color: color-mix(in srgb, var(--color-marshal-text) 45%, transparent);
+  }
+  .input-marshal {
+    @apply w-full rounded-full border border-marshal-neutral-800 bg-marshal-surface px-4 py-3 text-sm text-marshal-text placeholder:text-marshal-neutral-500 outline-none transition-colors focus-visible:border-marshal-accent focus-visible:ring-2 focus-visible:ring-marshal-accent/50;
+  }
+}

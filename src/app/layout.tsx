@@ -1,0 +1,23 @@
+import type { Metadata } from "next";
+import { Inter } from "next/font/google";
+import "./globals.css";
+
+const inter = Inter({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+});
+
+export const metadata: Metadata = {
+  title: "Marshal — Compliance that runs itself | Stellar GRC",
+  description:
+    "Marshal is the automation-first GRC platform from Stellar GRC. 312 automations pull evidence from your cloud, identity, ticketing and HR systems, test every control on a schedule, and map one result to every framework you carry.",
+};
+
+export default function RootLayout({ children }: LayoutProps<"/">) {
+  return (
+    <html lang="en" className={`${inter.variable} h-full antialiased`}>
+      <body className="min-h-full bg-marshal-bg text-marshal-text">{children}</body>
+    </html>
+  );
+}
