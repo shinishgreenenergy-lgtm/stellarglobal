@@ -353,12 +353,14 @@ export const frameworksMenu = [
 ];
 
 export const compareMenu = [
+  "Marshal vs Sahl",
+  "Marshal vs GRC Vantage",
+  "Marshal vs Cyber Arrow",
   "Marshal vs Vanta",
   "Marshal vs Drata",
   "Marshal vs Sprinto",
   "Marshal vs Secureframe",
   "Marshal vs OneTrust",
-  "Marshal vs Cyber Arrow",
   "NCA ECC vs SAMA CSF",
 ];
 
