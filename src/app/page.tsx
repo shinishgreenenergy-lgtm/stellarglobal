@@ -27,7 +27,7 @@ const SHOW_FAQ = true;
 
 export const metadata: Metadata = buildMetadata({
   title: `${BRAND.product} — ${BRAND.tagline}`,
-  description: `${BRAND.product} is ${BRAND.descriptor} from ${BRAND.company}. Automations pull evidence from your cloud, identity and HR systems, test every control on a schedule, and map one result to every framework you carry.`,
+  description: `${BRAND.product} is ${BRAND.descriptor} from ${BRAND.company}. It pulls evidence from your cloud, identity and HR systems, tests every control on a schedule, and maps one result to every framework.`,
   path: "/",
   keywords: KEYWORDS.home,
 });

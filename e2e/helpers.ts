@@ -16,3 +16,14 @@ export function url(path: string): string {
   const clean = path.replace(/^\/+/, "");
   return clean ? `${BASE_PATH}/${clean}` : `${BASE_PATH}/`;
 }
+
+/**
+ * The href next/link actually renders for a site-relative path.
+ *
+ * next.config.ts sets `trailingSlash: true`, so emitted hrefs end in "/" —
+ * an exact-match selector built from url() alone never matches.
+ */
+export function hrefFor(path: string): string {
+  const u = url(path);
+  return u.endsWith("/") ? u : `${u}/`;
+}
