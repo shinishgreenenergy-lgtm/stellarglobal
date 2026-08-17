@@ -354,8 +354,8 @@ export const products = [
 
 export const frameworksMenu = [
   { name: "NCA ECC", meta: "108 controls" },
-  { name: "NCA CSCC", meta: "85 controls" },
-  { name: "SAMA CSF", meta: "250 controls" },
+  { name: "NCA CSCC", meta: "32 controls" },
+  { name: "SAMA CSF", meta: "118 controls" },
   { name: "SAMA BCM", meta: "75 controls" },
   { name: "ISO/IEC 27001", meta: "93 controls" },
   { name: "PDPL", meta: "Lifecycle" },
@@ -455,12 +455,12 @@ export const disciplines = [
 
 export const frameworks = [
   { name: "NCA ECC", status: "Live", note: "Essential Cybersecurity Controls, the Saudi baseline.", controls: "108 controls automated" },
-  { name: "SAMA CSF", status: "Live", note: "Financial sector framework on the 5-level maturity model.", controls: "250 controls automated" },
+  { name: "SAMA CSF", status: "Live", note: "Financial sector framework on the 5-level maturity model.", controls: "118 controls automated" },
   { name: "PDPL", status: "Live", note: "Lawful basis, RoPA, DPO duties, 72-hour breach notice to SDAIA.", controls: "Full lifecycle" },
   { name: "ISO/IEC 27001", status: "Live", note: "Annex A 2022 plus the management system clauses.", controls: "93 controls automated" },
   { name: "SOC 2", status: "Live", note: "Type I and Type II across all five trust services criteria.", controls: "Continuous monitoring" },
   { name: "PCI DSS v4.0", status: "Live", note: "Twelve requirements across the cardholder data environment.", controls: "Scoped CDE testing" },
-  { name: "NCA CSCC", status: "Live", note: "Critical systems controls layered on top of ECC.", controls: "85 controls automated" },
+  { name: "NCA CSCC", status: "Live", note: "Critical systems controls layered on top of ECC.", controls: "32 controls automated" },
   { name: "SAMA BCM", status: "Live", note: "Business continuity for SAMA-supervised entities.", controls: "75 controls automated" },
   { name: "ISO 22301", status: "Live", note: "Business continuity management systems.", controls: "Lifecycle automated" },
   { name: "GDPR", status: "Live", note: "Records, DPIAs, subject requests and transfers.", controls: "Full lifecycle" },
