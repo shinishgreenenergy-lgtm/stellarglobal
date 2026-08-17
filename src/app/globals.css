@@ -5,9 +5,16 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Marshal (Stellar Global) design tokens — dark, warm-charcoal ground with an
- * ochre accent. This is a fixed single-theme brand site, not a light/dark
- * toggle, so these are set directly on :root rather than gated behind .dark.
+ * Marshal (Stellar Global) design tokens.
+ *
+ * Light is the default: the brand ramp resolves to a warm paper ground on
+ * :root. Dark is the original warm-charcoal treatment, reachable two ways —
+ * a .dark class set by the theme toggle, and prefers-color-scheme for
+ * visitors who never touch it. The `light` class pins light mode so the
+ * toggle can override a dark OS preference.
+ *
+ * The ramp indirects through plain --marshal-* properties so the theme blocks
+ * can reassign them without Tailwind's @theme needing to know about themes.
  */
 @theme inline {
   --color-background: var(--background);
@@ -51,103 +58,226 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Marshal brand ramp -> Tailwind utilities (bg-marshal-*, text-marshal-*, border-marshal-*) */
-  --color-marshal-bg: #121110;
-  --color-marshal-surface: #1c1a18;
-  --color-marshal-text: #f2efe9;
-  --color-marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
-  --color-marshal-section: #1e1a14;
-  --color-marshal-section-glow: #2e261a;
-  --color-marshal-section-ghost: #5e4517;
+  /* Marshal brand ramp -> Tailwind utilities (bg-marshal-*, text-marshal-*, border-marshal-*).
+     Each maps to a plain custom property that the theme blocks below reassign. */
+  --color-marshal-bg: var(--marshal-bg);
+  --color-marshal-surface: var(--marshal-surface);
+  --color-marshal-text: var(--marshal-text);
+  --color-marshal-divider: var(--marshal-divider);
+  --color-marshal-section: var(--marshal-section);
+  --color-marshal-section-glow: var(--marshal-section-glow);
+  --color-marshal-section-ghost: var(--marshal-section-ghost);
 
-  --color-marshal-neutral-100: #f7f5f1;
-  --color-marshal-neutral-200: #e8e4dc;
-  --color-marshal-neutral-300: #d2ccc1;
-  --color-marshal-neutral-400: #b0a99c;
-  --color-marshal-neutral-500: #8d8578;
-  --color-marshal-neutral-600: #6b6459;
-  --color-marshal-neutral-700: #4e483f;
-  --color-marshal-neutral-800: #35302a;
-  --color-marshal-neutral-900: #221f1b;
+  --color-marshal-neutral-100: var(--marshal-neutral-100);
+  --color-marshal-neutral-200: var(--marshal-neutral-200);
+  --color-marshal-neutral-300: var(--marshal-neutral-300);
+  --color-marshal-neutral-400: var(--marshal-neutral-400);
+  --color-marshal-neutral-500: var(--marshal-neutral-500);
+  --color-marshal-neutral-600: var(--marshal-neutral-600);
+  --color-marshal-neutral-700: var(--marshal-neutral-700);
+  --color-marshal-neutral-800: var(--marshal-neutral-800);
+  --color-marshal-neutral-900: var(--marshal-neutral-900);
 
-  --color-marshal-accent: #d3a03a;
-  --color-marshal-accent-2: #e0b866;
-  --color-marshal-accent-100: #fdf6e6;
-  --color-marshal-accent-200: #f8e7bf;
-  --color-marshal-accent-300: #eed392;
-  --color-marshal-accent-400: #e2ba60;
-  --color-marshal-accent-500: #d3a03a;
-  --color-marshal-accent-600: #ad802a;
-  --color-marshal-accent-700: #86621f;
-  --color-marshal-accent-800: #5e4517;
-  --color-marshal-accent-900: #3d2d10;
+  --color-marshal-accent: var(--marshal-accent);
+  --color-marshal-accent-2: var(--marshal-accent-2);
+  --color-marshal-accent-100: var(--marshal-accent-100);
+  --color-marshal-accent-200: var(--marshal-accent-200);
+  --color-marshal-accent-300: var(--marshal-accent-300);
+  --color-marshal-accent-400: var(--marshal-accent-400);
+  --color-marshal-accent-500: var(--marshal-accent-500);
+  --color-marshal-accent-600: var(--marshal-accent-600);
+  --color-marshal-accent-700: var(--marshal-accent-700);
+  --color-marshal-accent-800: var(--marshal-accent-800);
+  --color-marshal-accent-900: var(--marshal-accent-900);
 
-  --shadow-marshal-sm: 0 0 0 1px #35302a;
-  --shadow-marshal-md: 0 0 0 1px #4e483f, 0 6px 18px rgba(0, 0, 0, 0.6);
-  --shadow-marshal-lg: 0 0 0 1px #6b6459, 0 16px 40px rgba(0, 0, 0, 0.7);
-}
-
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --shadow-marshal-sm: 0 0 0 1px var(--marshal-neutral-800);
+  --shadow-marshal-md: 0 0 0 1px var(--marshal-neutral-700), 0 6px 18px var(--marshal-shadow-md);
+  --shadow-marshal-lg: 0 0 0 1px var(--marshal-neutral-600), 0 16px 40px var(--marshal-shadow-lg);
 }
 
 /*
- * Marshal is always-dark: map the shadcn semantic tokens straight onto the
- * brand ramp on :root (not .dark) so every shadcn primitive (Button,
- * Accordion, NavigationMenu, Card, Input) inherits the brand palette
- * without needing a `dark` class anywhere in the tree.
+ * LIGHT — the default. A warm paper ground rather than pure white, so the
+ * ochre accent still reads as part of the same family.
+ *
+ * Note the accent: #d3a03a on #fbfaf7 is about 2.1:1 and fails WCAG AA for
+ * text, so light mode uses the darker end of the ramp for anything that
+ * carries meaning, and keeps the bright value for fills and dots only.
  */
 :root {
-  --background: #121110;
-  --foreground: #f2efe9;
-  --card: #1c1a18;
-  --card-foreground: #f2efe9;
-  --popover: #1c1a18;
-  --popover-foreground: #f2efe9;
+  color-scheme: light;
+
+  --marshal-bg: #fbfaf7;
+  --marshal-surface: #ffffff;
+  --marshal-text: #1a1815;
+  --marshal-divider: color-mix(in srgb, #1a1815 12%, transparent);
+  --marshal-section: #f4f1ea;
+  --marshal-section-glow: #efe8d8;
+  --marshal-section-ghost: #e2d5b4;
+
+  /* Inverted: 100 is the darkest so `bg-marshal-neutral-100` stays the
+     high-contrast fill it is in dark mode, and text-*-500 stays mid-grey. */
+  --marshal-neutral-100: #221f1b;
+  --marshal-neutral-200: #35302a;
+  --marshal-neutral-300: #4e483f;
+  --marshal-neutral-400: #6b6459;
+  --marshal-neutral-500: #8d8578;
+  --marshal-neutral-600: #b0a99c;
+  --marshal-neutral-700: #d2ccc1;
+  --marshal-neutral-800: #e8e4dc;
+  --marshal-neutral-900: #f7f5f1;
+
+  --marshal-accent: #a87a22;
+  --marshal-accent-2: #86621f;
+  --marshal-accent-100: #3d2d10;
+  --marshal-accent-200: #5e4517;
+  --marshal-accent-300: #86621f;
+  --marshal-accent-400: #ad802a;
+  --marshal-accent-500: #d3a03a;
+  --marshal-accent-600: #e2ba60;
+  --marshal-accent-700: #eed392;
+  --marshal-accent-800: #e8dcc0;
+  --marshal-accent-900: #fdf6e6;
+
+  --marshal-shadow-md: rgba(26, 24, 21, 0.08);
+  --marshal-shadow-lg: rgba(26, 24, 21, 0.12);
+  --marshal-glow-strength: 8%;
+
+  /* shadcn semantic tokens -> the brand ramp, so every primitive inherits it */
+  --background: var(--marshal-bg);
+  --foreground: var(--marshal-text);
+  --card: var(--marshal-surface);
+  --card-foreground: var(--marshal-text);
+  --popover: var(--marshal-surface);
+  --popover-foreground: var(--marshal-text);
+  --primary: #1a1815;
+  --primary-foreground: #fbfaf7;
+  --secondary: var(--marshal-section);
+  --secondary-foreground: var(--marshal-text);
+  --muted: var(--marshal-section);
+  --muted-foreground: color-mix(in srgb, #1a1815 62%, transparent);
+  --accent: var(--marshal-section);
+  --accent-foreground: var(--marshal-text);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--marshal-divider);
+  --input: var(--marshal-divider);
+  --ring: var(--marshal-accent);
+  --radius: 0.875rem;
+
+  --sidebar: var(--marshal-surface);
+  --sidebar-foreground: var(--marshal-text);
+  --sidebar-primary: #1a1815;
+  --sidebar-primary-foreground: #fbfaf7;
+  --sidebar-accent: var(--marshal-section);
+  --sidebar-accent-foreground: var(--marshal-text);
+  --sidebar-border: var(--marshal-divider);
+  --sidebar-ring: var(--marshal-accent);
+
+  --chart-1: var(--marshal-accent-500);
+  --chart-2: var(--marshal-accent-300);
+  --chart-3: var(--marshal-neutral-400);
+  --chart-4: var(--marshal-neutral-500);
+  --chart-5: var(--marshal-neutral-600);
+}
+
+/*
+ * DARK — the original warm-charcoal brand treatment.
+ *
+ * The block is written out twice on purpose: once for the .dark class the
+ * toggle sets, once inside prefers-color-scheme for visitors who never touch
+ * it. `light-dark()` would collapse the duplication, but a browser that does
+ * not support it renders every token invalid — unstyled text on no
+ * background — and that failure mode is not worth the brevity.
+ */
+.dark {
+  color-scheme: dark;
+
+  --marshal-bg: #121110;
+  --marshal-surface: #1c1a18;
+  --marshal-text: #f2efe9;
+  --marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
+  --marshal-section: #1e1a14;
+  --marshal-section-glow: #2e261a;
+  --marshal-section-ghost: #5e4517;
+
+  --marshal-neutral-100: #f7f5f1;
+  --marshal-neutral-200: #e8e4dc;
+  --marshal-neutral-300: #d2ccc1;
+  --marshal-neutral-400: #b0a99c;
+  --marshal-neutral-500: #8d8578;
+  --marshal-neutral-600: #6b6459;
+  --marshal-neutral-700: #4e483f;
+  --marshal-neutral-800: #35302a;
+  --marshal-neutral-900: #221f1b;
+
+  --marshal-accent: #d3a03a;
+  --marshal-accent-2: #e0b866;
+  --marshal-accent-100: #fdf6e6;
+  --marshal-accent-200: #f8e7bf;
+  --marshal-accent-300: #eed392;
+  --marshal-accent-400: #e2ba60;
+  --marshal-accent-500: #d3a03a;
+  --marshal-accent-600: #ad802a;
+  --marshal-accent-700: #86621f;
+  --marshal-accent-800: #5e4517;
+  --marshal-accent-900: #3d2d10;
+
+  --marshal-shadow-md: rgba(0, 0, 0, 0.6);
+  --marshal-shadow-lg: rgba(0, 0, 0, 0.7);
+  --marshal-glow-strength: 15%;
+
   --primary: #f7f5f1;
   --primary-foreground: #121110;
-  --secondary: #221f1b;
-  --secondary-foreground: #f2efe9;
-  --muted: #221f1b;
   --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
-  --accent: #221f1b;
-  --accent-foreground: #f2efe9;
   --destructive: oklch(0.704 0.191 22.216);
-  --border: #35302a;
-  --input: #35302a;
-  --ring: #d3a03a;
-  --radius: 0.875rem;
+  --sidebar-primary: #f7f5f1;
+  --sidebar-primary-foreground: #121110;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    color-scheme: dark;
+
+    --marshal-bg: #121110;
+    --marshal-surface: #1c1a18;
+    --marshal-text: #f2efe9;
+    --marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
+    --marshal-section: #1e1a14;
+    --marshal-section-glow: #2e261a;
+    --marshal-section-ghost: #5e4517;
+
+    --marshal-neutral-100: #f7f5f1;
+    --marshal-neutral-200: #e8e4dc;
+    --marshal-neutral-300: #d2ccc1;
+    --marshal-neutral-400: #b0a99c;
+    --marshal-neutral-500: #8d8578;
+    --marshal-neutral-600: #6b6459;
+    --marshal-neutral-700: #4e483f;
+    --marshal-neutral-800: #35302a;
+    --marshal-neutral-900: #221f1b;
+
+    --marshal-accent: #d3a03a;
+    --marshal-accent-2: #e0b866;
+    --marshal-accent-100: #fdf6e6;
+    --marshal-accent-200: #f8e7bf;
+    --marshal-accent-300: #eed392;
+    --marshal-accent-400: #e2ba60;
+    --marshal-accent-500: #d3a03a;
+    --marshal-accent-600: #ad802a;
+    --marshal-accent-700: #86621f;
+    --marshal-accent-800: #5e4517;
+    --marshal-accent-900: #3d2d10;
+
+    --marshal-shadow-md: rgba(0, 0, 0, 0.6);
+    --marshal-shadow-lg: rgba(0, 0, 0, 0.7);
+    --marshal-glow-strength: 15%;
+
+    --primary: #f7f5f1;
+    --primary-foreground: #121110;
+    --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
+    --destructive: oklch(0.704 0.191 22.216);
+    --sidebar-primary: #f7f5f1;
+    --sidebar-primary-foreground: #121110;
+  }
 }
 
 @layer base {
@@ -169,8 +299,11 @@
 
 @layer components {
   /* Pill buttons per the Marshal spec — primary (off-white fill) / ghost (bordered) */
+  /* Fill and label both come from the ramp, so they invert together. The old
+     hover state filled pure white, which made the button vanish on a light
+     ground; hovering now dips opacity instead, which works in both themes. */
   .btn-marshal-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-marshal-neutral-100 px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-bg uppercase transition-colors hover:bg-white;
+    @apply inline-flex items-center justify-center rounded-full bg-marshal-neutral-100 px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-bg uppercase transition-opacity hover:opacity-85;
   }
   .btn-marshal-ghost {
     @apply inline-flex items-center justify-center rounded-full border px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-text uppercase transition-colors hover:border-marshal-accent hover:text-marshal-accent;
