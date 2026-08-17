@@ -20,7 +20,7 @@ export function AutomationLibrary() {
           <div className="grid grid-cols-1 items-start gap-7 lg:grid-cols-[260px_1fr] lg:gap-x-10">
             <div className="lg:sticky lg:top-[84px]">
               <h3 className="m-0 text-[22px] tracking-[-0.015em]">{group.name}</h3>
-              <p className="mt-2.5 text-[13.5px] leading-relaxed text-marshal-text/60">{group.note}</p>
+              <p className="mt-2.5 text-[13.5px] leading-relaxed text-marshal-text/70">{group.note}</p>
               <p className="mt-3.5 text-xs tracking-[0.06em] text-marshal-accent-300 uppercase">{group.count}</p>
             </div>
             <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -36,7 +36,7 @@ export function AutomationLibrary() {
                     </span>
                   </div>
                   <span className="text-[13px] leading-relaxed text-marshal-text/70">{a.what}</span>
-                  <span className="border-marshal-divider border-t pt-2 text-[11.5px] tracking-[0.03em] text-marshal-text/50">
+                  <span className="border-marshal-divider border-t pt-2 text-[11.5px] tracking-[0.03em] text-marshal-text/70">
                     {a.maps}
                   </span>
                 </div>

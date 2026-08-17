@@ -3,6 +3,11 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { products, frameworksMenu, compareMenu } from "@/lib/marshal-content";
+import { BRAND } from "@/lib/brand";
+import { MarshalLogo } from "@/components/marshal/brand-logo";
+import { compareSlug, getComparison } from "@/lib/compare-content";
+import { FRAMEWORK_FACTS } from "@/lib/compliance-facts";
+import Link from "next/link";
 
 const navLinks = [
   { href: "#automations", label: "Automations", current: true },
@@ -14,6 +19,7 @@ const navLinks = [
 export function SiteNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
 
   // Esc closes the mega menu regardless of focus location, matching the
@@ -29,14 +35,29 @@ export function SiteNav() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  // The bar only earns its hairline and lift once the page has moved, so at
+  // rest it stays part of the hero rather than a band sitting on top of it.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <nav
-      className="sticky top-0 z-30 flex items-center justify-between gap-6 px-5 py-4 backdrop-blur-md"
-      style={{ background: "color-mix(in srgb, var(--color-marshal-bg) 92%, transparent)" }}
+      data-scrolled={scrolled}
+      className="nav-bar sticky top-0 z-30 flex items-center justify-between gap-6 px-5 py-4 backdrop-blur-md"
     >
-      <span className="font-heading text-sm font-semibold tracking-tight text-marshal-text">
-        Stellar GRC
-      </span>
+      <span className="nav-scan" aria-hidden />
+
+      <a
+        href="#top"
+        aria-label={`${BRAND.product} home`}
+        className="flex shrink-0 items-center rounded-sm transition-opacity hover:opacity-80"
+      >
+        <MarshalLogo className="h-7 w-auto" />
+      </a>
 
       <div className="hidden flex-1 items-center gap-7 md:flex">
         {/* Mega menu trigger + panel — hover/focus-within driven via group, no JS needed to open */}
@@ -48,7 +69,7 @@ export function SiteNav() {
         >
           <button
             type="button"
-            className="flex items-center gap-1.5 text-sm text-marshal-text/80 transition-colors hover:text-marshal-accent hover:opacity-100 focus-visible:text-marshal-accent"
+            className="nav-link hover:text-marshal-accent-300 focus-visible:text-marshal-accent-300 text-marshal-text/80 flex items-center gap-1.5 text-sm transition-colors"
             aria-expanded={megaOpen}
           >
             Products
@@ -67,7 +88,7 @@ export function SiteNav() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.5fr_1fr_1fr]">
               <div>
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Modules</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Modules</p>
                 <div className="grid grid-cols-2 gap-0.5">
                   {products.map((p) => (
                     <a
@@ -76,46 +97,76 @@ export function SiteNav() {
                       className="flex flex-col gap-0.5 rounded-lg p-2.5 no-underline transition-colors hover:bg-marshal-neutral-900"
                     >
                       <span className="font-heading text-sm font-semibold text-marshal-text">{p.name}</span>
-                      <span className="text-xs leading-snug text-marshal-text/60">{p.note}</span>
+                      <span className="text-xs leading-snug text-marshal-text/70">{p.note}</span>
                     </a>
                   ))}
                 </div>
               </div>
 
               <div className="border-marshal-divider border-t pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Frameworks</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Frameworks</p>
                 <div className="flex flex-col gap-px">
-                  {frameworksMenu.map((f) => (
-                    <a
-                      key={f.name}
-                      href="#frameworks"
-                      className="flex items-baseline justify-between gap-2.5 rounded-lg px-2.5 py-1.5 text-sm text-marshal-text no-underline transition-colors hover:bg-marshal-neutral-900"
-                    >
-                      <span>{f.name}</span>
-                      <span className="text-[10.5px] tracking-[0.05em] text-marshal-text/48 uppercase">{f.meta}</span>
-                    </a>
-                  ))}
+                  {frameworksMenu.map((f) => {
+                    // Join the menu list to the verified facts by name so the
+                    // two cannot silently drift apart. "Free readiness
+                    // assessment" has no framework page and stays an anchor.
+                    const fact = FRAMEWORK_FACTS.find((x) => x.name === f.name);
+                    const className =
+                      "hover:bg-marshal-neutral-900 text-marshal-text flex items-baseline justify-between gap-2.5 rounded-lg px-2.5 py-1.5 text-sm no-underline transition-colors";
+                    const label = (
+                      <>
+                        <span>{f.name}</span>
+                        <span className="text-marshal-text/70 text-[10.5px] tracking-[0.05em] uppercase">
+                          {f.meta}
+                        </span>
+                      </>
+                    );
+                    return fact ? (
+                      <Link key={f.name} href={`/frameworks/${fact.slug}`} className={className}>
+                        {label}
+                      </Link>
+                    ) : (
+                      <a key={f.name} href="#frameworks" className={className}>
+                        {label}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
               <div className="border-marshal-divider border-t pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Compare</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Compare</p>
                 <div className="flex flex-col gap-px">
-                  {compareMenu.map((c) => (
-                    <a
-                      key={c}
-                      href="#faq"
-                      className="rounded-lg px-2.5 py-1.5 text-sm text-marshal-text no-underline transition-colors hover:bg-marshal-neutral-900"
-                    >
-                      {c}
-                    </a>
-                  ))}
+                  {compareMenu.map((c) => {
+                    const slug = compareSlug(c);
+                    const hasPage = Boolean(getComparison(slug));
+                    // "NCA ECC vs SAMA CSF" compares frameworks, not vendors,
+                    // and has no page yet — it stays an in-page anchor rather
+                    // than linking somewhere that would 404.
+                    return hasPage ? (
+                      <Link
+                        key={c}
+                        href={`/compare/${slug}`}
+                        className="hover:bg-marshal-neutral-900 text-marshal-text rounded-lg px-2.5 py-1.5 text-sm no-underline transition-colors"
+                      >
+                        {c}
+                      </Link>
+                    ) : (
+                      <a
+                        key={c}
+                        href="#frameworks"
+                        className="hover:bg-marshal-neutral-900 text-marshal-text rounded-lg px-2.5 py-1.5 text-sm no-underline transition-colors"
+                      >
+                        {c}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
             <div className="border-marshal-divider mt-3.5 flex flex-wrap items-center justify-between gap-4 border-t pt-3">
-              <span className="text-[12.5px] text-marshal-text/60">
+              <span className="text-[12.5px] text-marshal-text/70">
                 312 automations across every module · ISO 27005 methodology · Arabic and English.
               </span>
               <a href="#automations" className="text-[12.5px]">
@@ -130,7 +181,7 @@ export function SiteNav() {
             key={l.href}
             href={l.href}
             aria-current={l.current ? "location" : undefined}
-            className="text-sm text-marshal-text/80 no-underline transition-colors hover:text-marshal-accent aria-[current=location]:text-marshal-accent"
+            className="nav-link hover:text-marshal-accent-300 aria-[current=location]:text-marshal-accent-300 text-marshal-text/80 text-sm no-underline transition-colors"
           >
             {l.label}
           </a>
@@ -153,9 +204,18 @@ export function SiteNav() {
       </div>
 
       {/* Mobile drawer — same items as the desktop mega menu, per the handoff's note
-          that mobile nav is out of scope of the design but should reuse the items. */}
-      {mobileOpen && (
-        <div className="bg-marshal-bg border-marshal-divider absolute top-full right-0 left-0 flex flex-col gap-1 border-t p-5 md:hidden">
+          that mobile nav is out of scope of the design but should reuse the items.
+
+          Kept mounted and driven by data-open so it can transition in both
+          directions; unmounting on close skips the exit animation entirely.
+          `hidden` still applies when closed, so it stays out of the tab order
+          and off the accessibility tree. */}
+      <div
+        data-open={mobileOpen}
+        hidden={!mobileOpen}
+        className="marshal-drawer bg-marshal-bg border-marshal-divider absolute top-full right-0 left-0 flex flex-col gap-1 border-t p-5 shadow-[0_18px_30px_-24px_var(--marshal-shadow-lg)] md:hidden"
+      >
+        <div className="contents">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -166,7 +226,7 @@ export function SiteNav() {
               {l.label}
             </a>
           ))}
-          <p className="mt-2 px-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Modules</p>
+          <p className="mt-2 px-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Modules</p>
           {products.map((p) => (
             <a
               key={p.name}
@@ -181,7 +241,7 @@ export function SiteNav() {
             Book a demo
           </button>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

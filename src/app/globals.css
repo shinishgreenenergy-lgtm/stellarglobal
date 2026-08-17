@@ -2,12 +2,27 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * The site is light-only, but the vendored shadcn primitives in
+ * src/components/ui ship `dark:` utilities. Tailwind's built-in `dark:`
+ * variant keys off prefers-color-scheme, which would let those styles fire on
+ * a visitor's dark OS and half-darken the UI. Binding the variant to a class
+ * that is never applied keeps them permanently inert without editing vendored
+ * files. Remove this line only if a real dark theme is reintroduced.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
 
 /*
- * Marshal (Stellar GRC) design tokens — dark, warm-charcoal ground with an
- * ochre accent. This is a fixed single-theme brand site, not a light/dark
- * toggle, so these are set directly on :root rather than gated behind .dark.
+ * Marshal (Stellar Global) design tokens.
+ *
+ * Light only, by the owner's decision — there is no dark theme, no toggle and
+ * no prefers-color-scheme branch. `color-scheme: light` on :root also stops
+ * the browser from auto-darkening form controls and scrollbars for visitors
+ * whose OS is set to dark.
+ *
+ * The ramp still indirects through plain --marshal-* properties: Tailwind's
+ * @theme cannot be redefined per-selector, and the indirection keeps the
+ * palette editable in one block.
  */
 @theme inline {
   --color-background: var(--background);
@@ -51,103 +66,126 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  /* Marshal brand ramp -> Tailwind utilities (bg-marshal-*, text-marshal-*, border-marshal-*) */
-  --color-marshal-bg: #121110;
-  --color-marshal-surface: #1c1a18;
-  --color-marshal-text: #f2efe9;
-  --color-marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
-  --color-marshal-section: #1e1a14;
-  --color-marshal-section-glow: #2e261a;
-  --color-marshal-section-ghost: #5e4517;
+  /* Marshal brand ramp -> Tailwind utilities (bg-marshal-*, text-marshal-*, border-marshal-*).
+     Each maps to a plain custom property that the theme blocks below reassign. */
+  --color-marshal-bg: var(--marshal-bg);
+  --color-marshal-surface: var(--marshal-surface);
+  --color-marshal-text: var(--marshal-text);
+  --color-marshal-divider: var(--marshal-divider);
+  --color-marshal-section: var(--marshal-section);
+  --color-marshal-section-glow: var(--marshal-section-glow);
+  --color-marshal-section-ghost: var(--marshal-section-ghost);
 
-  --color-marshal-neutral-100: #f7f5f1;
-  --color-marshal-neutral-200: #e8e4dc;
-  --color-marshal-neutral-300: #d2ccc1;
-  --color-marshal-neutral-400: #b0a99c;
-  --color-marshal-neutral-500: #8d8578;
-  --color-marshal-neutral-600: #6b6459;
-  --color-marshal-neutral-700: #4e483f;
-  --color-marshal-neutral-800: #35302a;
-  --color-marshal-neutral-900: #221f1b;
+  --color-marshal-neutral-100: var(--marshal-neutral-100);
+  --color-marshal-neutral-200: var(--marshal-neutral-200);
+  --color-marshal-neutral-300: var(--marshal-neutral-300);
+  --color-marshal-neutral-400: var(--marshal-neutral-400);
+  --color-marshal-neutral-500: var(--marshal-neutral-500);
+  --color-marshal-neutral-600: var(--marshal-neutral-600);
+  --color-marshal-neutral-700: var(--marshal-neutral-700);
+  --color-marshal-neutral-800: var(--marshal-neutral-800);
+  --color-marshal-neutral-900: var(--marshal-neutral-900);
 
-  --color-marshal-accent: #d3a03a;
-  --color-marshal-accent-2: #e0b866;
-  --color-marshal-accent-100: #fdf6e6;
-  --color-marshal-accent-200: #f8e7bf;
-  --color-marshal-accent-300: #eed392;
-  --color-marshal-accent-400: #e2ba60;
-  --color-marshal-accent-500: #d3a03a;
-  --color-marshal-accent-600: #ad802a;
-  --color-marshal-accent-700: #86621f;
-  --color-marshal-accent-800: #5e4517;
-  --color-marshal-accent-900: #3d2d10;
+  --color-marshal-accent: var(--marshal-accent);
+  --color-marshal-accent-2: var(--marshal-accent-2);
+  --color-marshal-accent-100: var(--marshal-accent-100);
+  --color-marshal-accent-200: var(--marshal-accent-200);
+  --color-marshal-accent-300: var(--marshal-accent-300);
+  --color-marshal-accent-400: var(--marshal-accent-400);
+  --color-marshal-accent-500: var(--marshal-accent-500);
+  --color-marshal-accent-600: var(--marshal-accent-600);
+  --color-marshal-accent-700: var(--marshal-accent-700);
+  --color-marshal-accent-800: var(--marshal-accent-800);
+  --color-marshal-accent-900: var(--marshal-accent-900);
 
-  --shadow-marshal-sm: 0 0 0 1px #35302a;
-  --shadow-marshal-md: 0 0 0 1px #4e483f, 0 6px 18px rgba(0, 0, 0, 0.6);
-  --shadow-marshal-lg: 0 0 0 1px #6b6459, 0 16px 40px rgba(0, 0, 0, 0.7);
-}
-
-:root {
-  --background: oklch(1 0 0);
-  --foreground: oklch(0.145 0 0);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.205 0 0);
-  --primary-foreground: oklch(0.985 0 0);
-  --secondary: oklch(0.97 0 0);
-  --secondary-foreground: oklch(0.205 0 0);
-  --muted: oklch(0.97 0 0);
-  --muted-foreground: oklch(0.556 0 0);
-  --accent: oklch(0.97 0 0);
-  --accent-foreground: oklch(0.205 0 0);
-  --destructive: oklch(0.577 0.245 27.325);
-  --border: oklch(0.922 0 0);
-  --input: oklch(0.922 0 0);
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.87 0 0);
-  --chart-2: oklch(0.556 0 0);
-  --chart-3: oklch(0.439 0 0);
-  --chart-4: oklch(0.371 0 0);
-  --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: oklch(0.205 0 0);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+  --shadow-marshal-sm: 0 0 0 1px var(--marshal-neutral-800);
+  --shadow-marshal-md: 0 0 0 1px var(--marshal-neutral-700), 0 6px 18px var(--marshal-shadow-md);
+  --shadow-marshal-lg: 0 0 0 1px var(--marshal-neutral-600), 0 16px 40px var(--marshal-shadow-lg);
 }
 
 /*
- * Marshal is always-dark: map the shadcn semantic tokens straight onto the
- * brand ramp on :root (not .dark) so every shadcn primitive (Button,
- * Accordion, NavigationMenu, Card, Input) inherits the brand palette
- * without needing a `dark` class anywhere in the tree.
+ * A warm paper ground rather than pure white, so the ochre accent still reads
+ * as part of the same family.
+ *
+ * Note the accent: #d3a03a on #fbfaf7 is about 2.1:1 and fails WCAG AA for
+ * text, so anything that carries meaning uses the darker end of the ramp and
+ * the bright value is kept for fills and dots only.
  */
 :root {
-  --background: #121110;
-  --foreground: #f2efe9;
-  --card: #1c1a18;
-  --card-foreground: #f2efe9;
-  --popover: #1c1a18;
-  --popover-foreground: #f2efe9;
-  --primary: #f7f5f1;
-  --primary-foreground: #121110;
-  --secondary: #221f1b;
-  --secondary-foreground: #f2efe9;
-  --muted: #221f1b;
-  --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
-  --accent: #221f1b;
-  --accent-foreground: #f2efe9;
-  --destructive: oklch(0.704 0.191 22.216);
-  --border: #35302a;
-  --input: #35302a;
-  --ring: #d3a03a;
+  color-scheme: light;
+
+  --marshal-bg: #fbfaf7;
+  --marshal-surface: #ffffff;
+  --marshal-text: #1a1815;
+  --marshal-divider: color-mix(in srgb, #1a1815 12%, transparent);
+  --marshal-section: #f4f1ea;
+  --marshal-section-glow: #efe8d8;
+  --marshal-section-ghost: #e2d5b4;
+
+  /* Inverted relative to the original dark palette: 100 is the darkest, so
+     `bg-marshal-neutral-100` is still the high-contrast fill every component
+     already expects it to be, and text-*-500 stays mid-grey. */
+  --marshal-neutral-100: #221f1b;
+  --marshal-neutral-200: #35302a;
+  --marshal-neutral-300: #4e483f;
+  --marshal-neutral-400: #6b6459;
+  --marshal-neutral-500: #8d8578;
+  --marshal-neutral-600: #b0a99c;
+  --marshal-neutral-700: #d2ccc1;
+  --marshal-neutral-800: #e8e4dc;
+  --marshal-neutral-900: #f7f5f1;
+
+  --marshal-accent: #a87a22;
+  --marshal-accent-2: #86621f;
+  --marshal-accent-100: #3d2d10;
+  --marshal-accent-200: #5e4517;
+  --marshal-accent-300: #86621f;
+  --marshal-accent-400: #ad802a;
+  --marshal-accent-500: #d3a03a;
+  --marshal-accent-600: #e2ba60;
+  --marshal-accent-700: #eed392;
+  --marshal-accent-800: #e8dcc0;
+  --marshal-accent-900: #fdf6e6;
+
+  --marshal-shadow-md: rgba(26, 24, 21, 0.08);
+  --marshal-shadow-lg: rgba(26, 24, 21, 0.12);
+  --marshal-glow-strength: 8%;
+
+  /* shadcn semantic tokens -> the brand ramp, so every primitive inherits it */
+  --background: var(--marshal-bg);
+  --foreground: var(--marshal-text);
+  --card: var(--marshal-surface);
+  --card-foreground: var(--marshal-text);
+  --popover: var(--marshal-surface);
+  --popover-foreground: var(--marshal-text);
+  --primary: #1a1815;
+  --primary-foreground: #fbfaf7;
+  --secondary: var(--marshal-section);
+  --secondary-foreground: var(--marshal-text);
+  --muted: var(--marshal-section);
+  --muted-foreground: color-mix(in srgb, #1a1815 62%, transparent);
+  --accent: var(--marshal-section);
+  --accent-foreground: var(--marshal-text);
+  --destructive: oklch(0.577 0.245 27.325);
+  --border: var(--marshal-divider);
+  --input: var(--marshal-divider);
+  --ring: var(--marshal-accent);
   --radius: 0.875rem;
+
+  --sidebar: var(--marshal-surface);
+  --sidebar-foreground: var(--marshal-text);
+  --sidebar-primary: #1a1815;
+  --sidebar-primary-foreground: #fbfaf7;
+  --sidebar-accent: var(--marshal-section);
+  --sidebar-accent-foreground: var(--marshal-text);
+  --sidebar-border: var(--marshal-divider);
+  --sidebar-ring: var(--marshal-accent);
+
+  --chart-1: var(--marshal-accent-500);
+  --chart-2: var(--marshal-accent-300);
+  --chart-3: var(--marshal-neutral-400);
+  --chart-4: var(--marshal-neutral-500);
+  --chart-5: var(--marshal-neutral-600);
 }
 
 @layer base {
@@ -169,8 +207,11 @@
 
 @layer components {
   /* Pill buttons per the Marshal spec — primary (off-white fill) / ghost (bordered) */
+  /* Fill and label both come from the ramp, so they invert together. The old
+     hover state filled pure white, which made the button vanish on a light
+     ground; hovering now dips opacity instead, which works in both themes. */
   .btn-marshal-primary {
-    @apply inline-flex items-center justify-center rounded-full bg-marshal-neutral-100 px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-bg uppercase transition-colors hover:bg-white;
+    @apply inline-flex items-center justify-center rounded-full bg-marshal-neutral-100 px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-bg uppercase transition-opacity hover:opacity-85;
   }
   .btn-marshal-ghost {
     @apply inline-flex items-center justify-center rounded-full border px-5 py-3 text-xs font-semibold tracking-[0.06em] text-marshal-text uppercase transition-colors hover:border-marshal-accent hover:text-marshal-accent;
@@ -178,5 +219,221 @@
   }
   .input-marshal {
     @apply w-full rounded-full border border-marshal-neutral-800 bg-marshal-surface px-4 py-3 text-sm text-marshal-text placeholder:text-marshal-neutral-500 outline-none transition-colors focus-visible:border-marshal-accent focus-visible:ring-2 focus-visible:ring-marshal-accent/50;
+  }
+}
+
+@layer utilities {
+  @keyframes marshal-clause-in {
+    from {
+      opacity: 0;
+      transform: translateY(6px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  .animate-clause-in {
+    animation: marshal-clause-in 420ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .animate-clause-in {
+      animation: none;
+    }
+  }
+}
+
+@layer components {
+  /*
+   * Nav chrome.
+   *
+   * At rest the bar is nearly part of the page; once the reader moves, it
+   * earns a hairline and a soft lift so content stops sliding under an
+   * ambiguous edge. Height never changes — the mega menu is positioned from
+   * the nav's bottom, and a shrinking bar would open a gap under it.
+   */
+  .nav-bar {
+    background: color-mix(in srgb, var(--color-marshal-bg) 82%, transparent);
+    border-bottom: 1px solid transparent;
+    transition:
+      background 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+  .nav-bar[data-scrolled="true"] {
+    background: color-mix(in srgb, var(--color-marshal-bg) 94%, transparent);
+    border-bottom-color: var(--color-marshal-divider);
+    box-shadow: 0 10px 26px -18px var(--marshal-shadow-lg);
+  }
+
+  /* Link underline grows from the leading edge; the current section keeps it. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -5px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--color-marshal-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after,
+  .nav-link[aria-current="location"]::after,
+  .nav-link[aria-expanded="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /*
+   * Signature: a scheduled sweep along the nav's bottom hairline.
+   *
+   * The product's claim is that the checks run on their own cadence whether or
+   * not anyone is watching, so the chrome runs on a cadence too. Ambient and
+   * wordless on purpose — it makes no claim about the visitor's estate.
+   */
+  .nav-scan {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .nav-scan::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 18%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-marshal-accent) 45%,
+      var(--color-marshal-accent-500) 55%,
+      transparent
+    );
+    animation: nav-scan 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @keyframes nav-scan {
+    0% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    42% {
+      transform: translateX(560%);
+      opacity: 1;
+    }
+    50%,
+    100% {
+      transform: translateX(560%);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-scan {
+      display: none;
+    }
+    .nav-link::after {
+      transition: none;
+    }
+  }
+}
+
+@layer utilities {
+  /*
+   * Scroll reveal. Style-only: the element is always in the DOM, so crawlers
+   * and no-JS visitors get the full page.
+   */
+  .marshal-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .marshal-reveal[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Unconditional visibility, not just "no animation": if the observer never
+     fires, the content must still be readable. */
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+@layer utilities {
+  @keyframes marshal-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Fade the entering and leaving edges so items do not pop at the boundary. */
+  .marshal-marquee {
+    mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  }
+
+  .marshal-marquee-inner {
+    animation: marshal-marquee var(--marquee-duration, 40s) linear infinite;
+  }
+
+  /* Pause on hover or when a child takes focus, so the strip is readable and
+     keyboard users are not chasing a moving target. */
+  .marshal-marquee:hover .marshal-marquee-inner,
+  .marshal-marquee:focus-within .marshal-marquee-inner {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-marquee-inner {
+      animation: none;
+    }
+    /* Stopped mid-track would clip most of the list off-screen, so hand the
+       reader a scrollable strip instead of a frozen one. */
+    .marshal-marquee {
+      mask-image: none;
+      overflow-x: auto;
+    }
+  }
+}
+
+@layer components {
+  /* Mobile drawer. Stays mounted so it can animate closed as well as open. */
+  .marshal-drawer {
+    transform: translateY(-8px);
+    opacity: 0;
+    transition:
+      opacity 180ms ease-out,
+      transform 180ms ease-out;
+  }
+  .marshal-drawer[data-open="true"] {
+    transform: none;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-drawer {
+      transition: none;
+    }
   }
 }

@@ -1,3 +1,6 @@
+import { BRAND } from "@/lib/brand";
+import { HeroDashboard } from "@/components/marshal/hero-dashboard";
+
 export function Hero() {
   return (
     <section data-hero className="relative pt-[88px] pb-[56px]">
@@ -13,7 +16,7 @@ export function Hero() {
       />
 
       <span className="mb-7 inline-block rounded-sm border border-marshal-accent-800 px-2.5 py-1 text-xs tracking-[0.08em] text-marshal-accent-300 uppercase">
-        Stellar GRC · NCA ECC · SAMA CSF · PDPL · ISO 27001
+        {BRAND.company} · NCA ECC · SAMA CSF · PDPL · ISO 27001
       </span>
 
       <h1 className="m-0 max-w-[18ch] text-[clamp(38px,5.6vw,72px)] leading-[1.04] font-extrabold tracking-[-0.025em] uppercase">
@@ -21,7 +24,7 @@ export function Hero() {
       </h1>
 
       <p className="mt-[22px] max-w-[62ch] text-lg leading-relaxed text-marshal-text/78">
-        Marshal is the automation-first GRC platform from Stellar GRC.{" "}
+        {BRAND.product} is {BRAND.descriptor} from {BRAND.company}.{" "}
         <strong className="font-semibold text-marshal-text">312 automations</strong> pull evidence from your
         cloud, identity, ticketing and HR systems, test every control on a schedule, map one result to every
         framework you carry, and raise the exception before the auditor does.
@@ -36,14 +39,9 @@ export function Hero() {
         </button>
       </div>
 
-      <figure className="mt-[44px] overflow-hidden rounded-2xl border border-marshal-neutral-800 bg-marshal-surface">
-        <div
-          className="flex w-full items-center justify-center text-sm text-marshal-neutral-500"
-          style={{ aspectRatio: "1200 / 588" }}
-        >
-          Marshal dashboard screenshot
-        </div>
-      </figure>
+      <div className="mt-[44px]">
+        <HeroDashboard />
+      </div>
     </section>
   );
 }

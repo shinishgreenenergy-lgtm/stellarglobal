@@ -15,9 +15,9 @@ export function FrameworkLibrary() {
           >
             <div className="flex items-baseline justify-between gap-2.5">
               <span className="font-heading text-base font-semibold">{fw.name}</span>
-              <span className="text-[11px] tracking-[0.06em] text-marshal-text/55 uppercase">{fw.status}</span>
+              <span className="text-[11px] tracking-[0.06em] text-marshal-text/70 uppercase">{fw.status}</span>
             </div>
-            <span className="text-[13px] leading-relaxed text-marshal-text/68">{fw.note}</span>
+            <span className="text-[13px] leading-relaxed text-marshal-text/70">{fw.note}</span>
             <span className="text-[11.5px] text-marshal-accent-300">{fw.controls}</span>
           </div>
         ))}
