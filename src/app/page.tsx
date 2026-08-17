@@ -1,4 +1,11 @@
+import type { Metadata } from "next";
 import { SiteNav } from "@/components/marshal/site-nav";
+import { JsonLd } from "@/components/marshal/json-ld";
+import { organizationLd, softwareApplicationLd, faqPageLd } from "@/lib/structured-data";
+import { faqs } from "@/lib/marshal-content";
+import { buildMetadata } from "@/lib/seo";
+import { KEYWORDS } from "@/lib/keywords";
+import { BRAND } from "@/lib/brand";
 import { Hero } from "@/components/marshal/hero";
 import { IntegrationsStrip } from "@/components/marshal/integrations-strip";
 import { StatBand } from "@/components/marshal/stat-band";
@@ -18,9 +25,20 @@ import { SiteFooter } from "@/components/marshal/site-footer";
 const SHOW_TESTIMONIALS = true;
 const SHOW_FAQ = true;
 
+export const metadata: Metadata = buildMetadata({
+  title: `${BRAND.product} — ${BRAND.tagline}`,
+  description: `${BRAND.product} is ${BRAND.descriptor} from ${BRAND.company}. Automations pull evidence from your cloud, identity and HR systems, test every control on a schedule, and map one result to every framework you carry.`,
+  path: "/",
+  keywords: KEYWORDS.home,
+});
+
 export default function MarshalPage() {
   return (
     <div className="bg-marshal-bg text-marshal-text">
+      <JsonLd data={organizationLd()} />
+      <JsonLd data={softwareApplicationLd()} />
+      <JsonLd data={faqPageLd(faqs)} />
+
       <SiteNav />
 
       <div className="mx-auto max-w-[1240px] px-5">
