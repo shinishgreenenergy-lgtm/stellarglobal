@@ -6,7 +6,7 @@ export function IntegrationsStrip() {
       aria-label="Connected systems"
       className="border-marshal-divider border-t border-b py-10"
     >
-      <p className="mb-[18px] text-xs tracking-[0.08em] text-marshal-text/55 uppercase">
+      <p className="mb-[18px] text-xs tracking-[0.08em] text-marshal-text/70 uppercase">
         Evidence collected automatically from
       </p>
       <div className="flex flex-wrap gap-x-2 gap-y-2.5">

@@ -9,11 +9,11 @@ export function HeroDashboard() {
       className="border-marshal-neutral-800 bg-marshal-surface m-0 overflow-hidden rounded-2xl border"
     >
       <div className="border-marshal-divider flex items-center justify-between gap-3 border-b px-4 py-2.5">
-        <span className="text-marshal-text/60 text-xs">
+        <span className="text-marshal-text/70 text-xs">
           {BRAND.product} <span aria-hidden>›</span> Automations <span aria-hidden>›</span>{" "}
           <span className="text-marshal-text/85">{heroRun.automation}</span>
         </span>
-        <span className="text-marshal-text/40 hidden text-[11px] tracking-[0.06em] uppercase sm:inline">
+        <span className="text-marshal-text/70 hidden text-[11px] tracking-[0.06em] uppercase sm:inline">
           Read-only · {heroRun.cadence}
         </span>
       </div>
@@ -29,13 +29,13 @@ export function HeroDashboard() {
             <p className="font-heading text-marshal-text m-0 text-lg font-semibold">
               {heroRun.automation}
             </p>
-            <p className="text-marshal-text/55 m-0 mt-1 text-sm">{heroRun.cadence}</p>
+            <p className="text-marshal-text/70 m-0 mt-1 text-sm">{heroRun.cadence}</p>
           </div>
 
           <dl className="mt-auto grid grid-cols-2 gap-4">
             {heroRun.counters.map((c) => (
               <div key={c.label} className="flex flex-col-reverse">
-                <dt className="text-marshal-text/50 text-xs leading-snug">{c.label}</dt>
+                <dt className="text-marshal-text/70 text-xs leading-snug">{c.label}</dt>
                 <dd className="font-heading text-marshal-text m-0 text-2xl font-bold">{c.value}</dd>
               </div>
             ))}
@@ -43,7 +43,7 @@ export function HeroDashboard() {
         </div>
 
         <div className="flex flex-col p-5">
-          <p className="text-marshal-text/50 m-0 mb-3 text-[11px] tracking-[0.08em] uppercase">
+          <p className="text-marshal-text/70 m-0 mb-3 text-[11px] tracking-[0.08em] uppercase">
             Cleared this run
           </p>
 
@@ -57,14 +57,14 @@ export function HeroDashboard() {
               >
                 <span className="text-marshal-text text-sm">{clause.framework}</span>
                 <span className="flex items-center gap-2.5">
-                  <span className="text-marshal-text/50 font-mono text-xs">{clause.reference}</span>
-                  <Check className="text-marshal-accent size-3.5" aria-hidden />
+                  <span className="text-marshal-text/70 font-mono text-xs">{clause.reference}</span>
+                  <Check className="text-marshal-accent-300 size-3.5" aria-hidden />
                 </span>
               </li>
             ))}
           </ul>
 
-          <p className="border-marshal-divider text-marshal-text/45 mt-auto border-t pt-3 text-xs">
+          <p className="border-marshal-divider text-marshal-text/70 mt-auto border-t pt-3 text-xs">
             One test · {heroRun.cleared.length} frameworks · evidence filed automatically
           </p>
         </div>

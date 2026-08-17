@@ -50,7 +50,7 @@ export function SiteNav() {
         >
           <button
             type="button"
-            className="flex items-center gap-1.5 text-sm text-marshal-text/80 transition-colors hover:text-marshal-accent hover:opacity-100 focus-visible:text-marshal-accent"
+            className="flex items-center gap-1.5 text-sm text-marshal-text/80 transition-colors hover:text-marshal-accent-300 hover:opacity-100 focus-visible:text-marshal-accent-300"
             aria-expanded={megaOpen}
           >
             Products
@@ -69,7 +69,7 @@ export function SiteNav() {
 
             <div className="grid grid-cols-1 gap-6 md:grid-cols-[1.5fr_1fr_1fr]">
               <div>
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Modules</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Modules</p>
                 <div className="grid grid-cols-2 gap-0.5">
                   {products.map((p) => (
                     <a
@@ -78,14 +78,14 @@ export function SiteNav() {
                       className="flex flex-col gap-0.5 rounded-lg p-2.5 no-underline transition-colors hover:bg-marshal-neutral-900"
                     >
                       <span className="font-heading text-sm font-semibold text-marshal-text">{p.name}</span>
-                      <span className="text-xs leading-snug text-marshal-text/60">{p.note}</span>
+                      <span className="text-xs leading-snug text-marshal-text/70">{p.note}</span>
                     </a>
                   ))}
                 </div>
               </div>
 
               <div className="border-marshal-divider border-t pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Frameworks</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Frameworks</p>
                 <div className="flex flex-col gap-px">
                   {frameworksMenu.map((f) => (
                     <a
@@ -94,14 +94,14 @@ export function SiteNav() {
                       className="flex items-baseline justify-between gap-2.5 rounded-lg px-2.5 py-1.5 text-sm text-marshal-text no-underline transition-colors hover:bg-marshal-neutral-900"
                     >
                       <span>{f.name}</span>
-                      <span className="text-[10.5px] tracking-[0.05em] text-marshal-text/48 uppercase">{f.meta}</span>
+                      <span className="text-[10.5px] tracking-[0.05em] text-marshal-text/70 uppercase">{f.meta}</span>
                     </a>
                   ))}
                 </div>
               </div>
 
               <div className="border-marshal-divider border-t pt-3 md:border-t-0 md:border-l md:pt-0 md:pl-6">
-                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Compare</p>
+                <p className="mb-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Compare</p>
                 <div className="flex flex-col gap-px">
                   {compareMenu.map((c) => (
                     <a
@@ -117,7 +117,7 @@ export function SiteNav() {
             </div>
 
             <div className="border-marshal-divider mt-3.5 flex flex-wrap items-center justify-between gap-4 border-t pt-3">
-              <span className="text-[12.5px] text-marshal-text/60">
+              <span className="text-[12.5px] text-marshal-text/70">
                 312 automations across every module · ISO 27005 methodology · Arabic and English.
               </span>
               <a href="#automations" className="text-[12.5px]">
@@ -132,7 +132,7 @@ export function SiteNav() {
             key={l.href}
             href={l.href}
             aria-current={l.current ? "location" : undefined}
-            className="text-sm text-marshal-text/80 no-underline transition-colors hover:text-marshal-accent aria-[current=location]:text-marshal-accent"
+            className="text-sm text-marshal-text/80 no-underline transition-colors hover:text-marshal-accent-300 aria-[current=location]:text-marshal-accent-300"
           >
             {l.label}
           </a>
@@ -168,7 +168,7 @@ export function SiteNav() {
               {l.label}
             </a>
           ))}
-          <p className="mt-2 px-2 text-[11px] tracking-[0.08em] text-marshal-text/50 uppercase">Modules</p>
+          <p className="mt-2 px-2 text-[11px] tracking-[0.08em] text-marshal-text/70 uppercase">Modules</p>
           {products.map((p) => (
             <a
               key={p.name}

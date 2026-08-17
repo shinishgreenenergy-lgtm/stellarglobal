@@ -11,7 +11,7 @@ export function Testimonials() {
             className="m-0 flex flex-col gap-4 rounded-lg border border-marshal-neutral-800 bg-marshal-surface p-5.5"
           >
             <blockquote className="m-0 text-[15.5px] leading-relaxed">{q.text}</blockquote>
-            <figcaption className="mt-auto text-[12.5px] text-marshal-text/60">{q.who}</figcaption>
+            <figcaption className="mt-auto text-[12.5px] text-marshal-text/70">{q.who}</figcaption>
           </figure>
         ))}
       </div>
