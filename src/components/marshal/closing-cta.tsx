@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, type FormEvent } from "react";
+import { BRAND } from "@/lib/brand";
 
 type FormState = "idle" | "loading" | "success" | "error";
 
@@ -49,7 +50,7 @@ export function ClosingCta() {
           Stop preparing for audits. Start passing them.
         </h2>
         <p className="mt-4.5 max-w-[56ch] text-base leading-relaxed text-marshal-text/75">
-          Thirty minutes with the Stellar GRC team in Riyadh, on your own control set — we turn on the
+          Thirty minutes with the {BRAND.company} team in Riyadh, on your own control set — we turn on the
           automations against a sandbox tenant and show you what fails.
         </p>
       </div>

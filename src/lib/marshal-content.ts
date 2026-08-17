@@ -1,7 +1,18 @@
-// Content for the Marshal (Stellar GRC) marketing page.
-// Ported verbatim from the design handoff — see design_handoff_marshal_site/README.md.
-// All copy here is placeholder marketing copy per the handoff's "Content accuracy
-// warning": legal/marketing must confirm or replace every number and quote before launch.
+// Content for the Marshal (Stellar Global) marketing site.
+// Ported from the design handoff — see design_handoff_marshal_site/README.md.
+//
+// Framework names and control counts are verified against primary sources in
+// src/lib/compliance-facts.ts. Marketing claims that are NOT verifiable from a
+// public standard remain placeholder and must be confirmed by legal and
+// marketing before launch. Specifically still unverified:
+//   - "312 automations" and every per-group automation count
+//   - "91% of evidence collected without a human"
+//   - "40+ frameworks mapped to one control set"
+//   - "6 wks median time to first certification"
+//   - all three testimonials in `quotes` — invented, must be replaced with
+//     attributed real quotes or removed before launch
+
+import { BRAND } from "@/lib/brand";
 
 export type Automation = {
   name: string;
@@ -499,5 +510,5 @@ export const migration = [
   "Import your control set, policies and evidence history with dates preserved.",
   "Automated re-mapping onto Marshal's unified control library — no re-answering.",
   "Parallel run for one cycle so nothing lapses during the switch.",
-  "Migration delivered by the Stellar GRC team, not a support article.",
+  `Migration delivered by the ${BRAND.company} team, not a support article.`,
 ];

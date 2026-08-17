@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { products, frameworksMenu, compareMenu } from "@/lib/marshal-content";
+import { BRAND } from "@/lib/brand";
 
 const navLinks = [
   { href: "#automations", label: "Automations", current: true },
@@ -35,7 +36,7 @@ export function SiteNav() {
       style={{ background: "color-mix(in srgb, var(--color-marshal-bg) 92%, transparent)" }}
     >
       <span className="font-heading text-sm font-semibold tracking-tight text-marshal-text">
-        Stellar GRC
+        {BRAND.company}
       </span>
 
       <div className="hidden flex-1 items-center gap-7 md:flex">

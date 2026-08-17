@@ -5,7 +5,7 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * Marshal (Stellar GRC) design tokens — dark, warm-charcoal ground with an
+ * Marshal (Stellar Global) design tokens — dark, warm-charcoal ground with an
  * ochre accent. This is a fixed single-theme brand site, not a light/dark
  * toggle, so these are set directly on :root rather than gated behind .dark.
  */
