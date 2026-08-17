@@ -512,3 +512,26 @@ export const migration = [
   "Parallel run for one cycle so nothing lapses during the switch.",
   `Migration delivered by the ${BRAND.company} team, not a support article.`,
 ];
+
+/**
+ * The single automation run shown in the hero panel. Illustrative, not a real
+ * tenant: the counts and timestamp are placeholder per the header note. The
+ * clause IDs extend the set already published for "Leaver revocation" above.
+ */
+export const heroRun = {
+  automation: "Leaver revocation",
+  cadence: "On HRIS event",
+  status: "Passed",
+  ranAt: "04:12",
+  counters: [
+    { value: "14", label: "terminations processed" },
+    { value: "14", label: "revoked inside 24h" },
+  ],
+  cleared: [
+    { framework: "NCA ECC", reference: "2-2-3" },
+    { framework: "ISO/IEC 27001", reference: "A.5.11" },
+    { framework: "SOC 2", reference: "CC6.2" },
+    { framework: "SAMA CSF", reference: "3.3.5" },
+    { framework: "PDPL", reference: "Art. 20" },
+  ],
+} as const;

@@ -1,4 +1,5 @@
 import { BRAND } from "@/lib/brand";
+import { HeroDashboard } from "@/components/marshal/hero-dashboard";
 
 export function Hero() {
   return (
@@ -38,14 +39,9 @@ export function Hero() {
         </button>
       </div>
 
-      <figure className="mt-[44px] overflow-hidden rounded-2xl border border-marshal-neutral-800 bg-marshal-surface">
-        <div
-          className="flex w-full items-center justify-center text-sm text-marshal-neutral-500"
-          style={{ aspectRatio: "1200 / 588" }}
-        >
-          Marshal dashboard screenshot
-        </div>
-      </figure>
+      <div className="mt-[44px]">
+        <HeroDashboard />
+      </div>
     </section>
   );
 }
