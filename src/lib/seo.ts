@@ -5,11 +5,20 @@ import { BASE_PATH } from "@/lib/asset";
 /**
  * Production origin.
  *
- * GitHub Pages serves this repo at a subpath. If a custom domain is added,
- * change SITE_URL here and set BASE_PATH to "" in src/lib/asset.ts, then drop
- * basePath/assetPrefix from next.config.ts — those three must agree.
+ * GitHub Pages serves a project site at <owner>.github.io/<repo>, so the
+ * origin is the *owner*, not the repo — the repo name is the basePath. For
+ * shinishgreenenergy-lgtm/stellarglobal that resolves to
+ * https://shinishgreenenergy-lgtm.github.io/stellarglobal/.
+ *
+ * Getting this wrong is silent: the pages still render, but every canonical,
+ * OpenGraph url, JSON-LD url and sitemap entry points at a domain that is not
+ * yours, which is worse than having none.
+ *
+ * If a custom domain is added: change SITE_URL, set BASE_PATH to "" in
+ * src/lib/asset.ts, and drop basePath/assetPrefix from next.config.ts — those
+ * three must agree.
  */
-export const SITE_URL = "https://stellarglobal.github.io";
+export const SITE_URL = "https://shinishgreenenergy-lgtm.github.io";
 
 export { BASE_PATH };
 

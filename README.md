@@ -11,7 +11,8 @@ npm install
 npm run dev
 ```
 
-Then open **http://localhost:3000/stellarglobal/**
+`npm run dev` prints the working URL and opens it for you:
+**http://localhost:3000/stellarglobal/**
 
 > `http://localhost:3000/` returns 404 by design. `next.config.ts` sets
 > `basePath: "/stellarglobal"` so the site can be served from a GitHub Pages
@@ -22,7 +23,8 @@ Then open **http://localhost:3000/stellarglobal/**
 
 | Command | What it does |
 |---|---|
-| `npm run dev` | Dev server at `/stellarglobal/` |
+| `npm run dev` | Dev server; prints and opens `/stellarglobal/` |
+| `npm run dev:raw` | Plain `next dev`, no wrapper |
 | `npm run build` | Static export to `out/` |
 | `npm test` | Vitest — unit and component tests |
 | `npm run test:e2e` | Playwright — desktop and mobile |
@@ -97,11 +99,25 @@ half-filled tables cannot read as doorway pages.
 while `reviewed: false` in `src/lib/legal-content.ts`. The security page lists
 no certifications; add them when the reports exist.
 
+## Deployment
+
+Live at **https://shinishgreenenergy-lgtm.github.io/stellarglobal/** — a GitHub
+Pages project site built from the `gh-pages` branch.
+
+```bash
+npm run deploy   # next build && publish out/ to gh-pages
+```
+
+The origin is the repo **owner** (`shinishgreenenergy-lgtm.github.io`) and the
+basePath is the repo **name** (`/stellarglobal`). A test derives both from the
+git remote, because getting `SITE_URL` wrong is silent — pages still render
+while every canonical points at a domain you do not own.
+
 ## Before launch
 
-- [ ] Point `SITE_URL` in `src/lib/seo.ts` at the real domain (currently
-      `stellarglobal.github.io`). If a custom domain is used, also set
-      `BASE_PATH` to `""` and drop `basePath`/`assetPrefix` from `next.config.ts`.
+- [ ] If a custom domain is registered, point `SITE_URL` at it, set
+      `BASE_PATH` to `""`, and drop `basePath`/`assetPrefix` from
+      `next.config.ts` — all three must agree.
 - [ ] Replace `BRAND.email` in `src/lib/brand.ts` — it appears in the privacy
       policy, the security page and the JSON-LD.
 - [ ] Legal review of `/privacy`, `/terms`, `/cookies`, then flip `reviewed`.
