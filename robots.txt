@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://shinishgreenenergy-lgtm.github.io/stellarglobal/sitemap.xml
