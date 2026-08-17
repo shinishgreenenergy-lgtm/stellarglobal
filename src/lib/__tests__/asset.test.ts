@@ -5,20 +5,36 @@ import { asset, BASE_PATH } from "@/lib/asset";
 
 describe("asset", () => {
   it("prefixes the basePath", () => {
-    expect(asset("/marshal-logo.svg")).toBe("/stellarglobal/marshal-logo.svg");
+    expect(asset("/marshal-logo.svg")).toBe(`${BASE_PATH}/marshal-logo.svg`);
   });
 
   it("tolerates a missing leading slash", () => {
-    expect(asset("marshal-logo.svg")).toBe("/stellarglobal/marshal-logo.svg");
+    expect(asset("marshal-logo.svg")).toBe(`${BASE_PATH}/marshal-logo.svg`);
   });
 
-  it("matches the basePath actually configured in next.config.ts", () => {
+  it("always produces an absolute path", () => {
+    expect(asset("x.svg").startsWith("/")).toBe(true);
+  });
+
+  it("never emits a double slash", () => {
+    expect(asset("//x.svg")).not.toMatch(/\/\//);
+  });
+
+  it("defaults to the root, which is what Netlify and dev serve", () => {
+    if (!process.env.NEXT_PUBLIC_BASE_PATH) {
+      expect(BASE_PATH).toBe("");
+      expect(asset("/marshal-logo.svg")).toBe("/marshal-logo.svg");
+    }
+  });
+
+  it("reads the same env var next.config.ts reads", () => {
+    // The two must agree: if next.config.ts derived basePath from anything
+    // else, assets would be emitted under one prefix and requested under
+    // another — the exact failure that broke the Netlify deploy.
     const config = readFileSync(
       path.resolve(import.meta.dirname, "../../../next.config.ts"),
       "utf8"
     );
-    const configured = config.match(/REPO_BASE_PATH\s*=\s*"([^"]+)"/)?.[1];
-    expect(configured, "could not read REPO_BASE_PATH from next.config.ts").toBeDefined();
-    expect(BASE_PATH).toBe(configured);
+    expect(config).toContain("NEXT_PUBLIC_BASE_PATH");
   });
 });

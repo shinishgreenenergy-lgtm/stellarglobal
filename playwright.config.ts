@@ -23,8 +23,10 @@ export default defineConfig({
     { name: "mobile", use: { ...devices["Pixel 5"] } },
   ],
   webServer: {
-    command: "npm run dev",
-    url: "http://localhost:3000/stellarglobal/",
+    // dev:raw, not dev: the wrapper only adds a banner and a browser-open,
+    // neither of which a test run wants.
+    command: "npm run dev:raw",
+    url: `http://localhost:3000${(process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "")}/`,
     reuseExistingServer: !process.env.CI,
     timeout: 120_000,
   },

@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "test:e2e": "playwright test",
     "verify": "npm run lint && npm run typecheck && npm test && npm run build",
-    "deploy": "next build && touch out/.nojekyll && gh-pages -d out --dotfiles"
+    "deploy": "npm run build",
+    "deploy:pages": "NEXT_PUBLIC_BASE_PATH=/stellarglobal NEXT_PUBLIC_SITE_URL=https://shinishgreenenergy-lgtm.github.io next build && touch out/.nojekyll && gh-pages -d out --dotfiles"
   },
   "dependencies": {
     "@base-ui/react": "^1.7.0",

@@ -2,14 +2,16 @@
  * URL helpers for the e2e suite.
  *
  * Playwright resolves `goto()` with `new URL(path, baseURL)`, so a leading
- * slash discards any path component of baseURL: with baseURL
- * "http://localhost:3000/stellarglobal", `goto("/")` silently lands on
- * "http://localhost:3000/" — which this app 404s. That 404 page has an <h1>,
- * so naive smoke assertions pass against it and the suite looks green while
- * testing nothing. baseURL is therefore the bare origin, and every navigation
+ * slash discards any path component of baseURL. When this project still had a
+ * hardcoded basePath, `goto("/")` silently landed on the bare root and every
+ * test ran against the 404 page — which has an <h1>, so the suite looked
+ * green while testing nothing. baseURL is the bare origin and all navigation
  * goes through `url()`.
+ *
+ * BASE_PATH mirrors NEXT_PUBLIC_BASE_PATH, so the same suite can run against
+ * a root deploy (Netlify, dev) or a subpath one (GitHub Pages).
  */
-export const BASE_PATH = "/stellarglobal";
+export const BASE_PATH = (process.env.NEXT_PUBLIC_BASE_PATH ?? "").replace(/\/+$/, "");
 
 /** Map a site-relative path ("/privacy") to a full path including basePath. */
 export function url(path: string): string {

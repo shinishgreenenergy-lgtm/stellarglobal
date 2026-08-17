@@ -1,18 +1,19 @@
 import { describe, it, expect } from "vitest";
 import { SITE_URL, absoluteUrl, buildMetadata } from "@/lib/seo";
+import { BASE_PATH } from "@/lib/asset";
 import { KEYWORDS } from "@/lib/keywords";
 
 describe("absoluteUrl", () => {
-  it("includes the basePath", () => {
-    expect(absoluteUrl("/privacy")).toBe(`${SITE_URL}/stellarglobal/privacy`);
+  it("includes the basePath when one is set", () => {
+    expect(absoluteUrl("/privacy")).toBe(`${SITE_URL}${BASE_PATH}/privacy`);
   });
 
   it("normalises a missing leading slash", () => {
-    expect(absoluteUrl("privacy")).toBe(`${SITE_URL}/stellarglobal/privacy`);
+    expect(absoluteUrl("privacy")).toBe(`${SITE_URL}${BASE_PATH}/privacy`);
   });
 
   it("maps the site root to the basePath root", () => {
-    expect(absoluteUrl("/")).toBe(`${SITE_URL}/stellarglobal`);
+    expect(absoluteUrl("/")).toBe(`${SITE_URL}${BASE_PATH}`);
   });
 
   it("never emits a double slash", () => {

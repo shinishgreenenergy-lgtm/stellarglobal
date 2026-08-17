@@ -3,22 +3,20 @@ import { BRAND } from "@/lib/brand";
 import { BASE_PATH } from "@/lib/asset";
 
 /**
- * Production origin.
+ * Canonical production origin.
  *
- * GitHub Pages serves a project site at <owner>.github.io/<repo>, so the
- * origin is the *owner*, not the repo — the repo name is the basePath. For
- * shinishgreenenergy-lgtm/stellarglobal that resolves to
- * https://shinishgreenenergy-lgtm.github.io/stellarglobal/.
+ * The site is reachable on more than one host (Netlify and GitHub Pages).
+ * Canonicals, OpenGraph urls, JSON-LD and the sitemap must all name ONE of
+ * them, or the two copies compete as duplicate content and search engines
+ * pick a winner for you. Netlify is the canonical host; the Pages build emits
+ * the same canonicals, which is correct — it points crawlers at the primary.
  *
- * Getting this wrong is silent: the pages still render, but every canonical,
- * OpenGraph url, JSON-LD url and sitemap entry points at a domain that is not
- * yours, which is worse than having none.
- *
- * If a custom domain is added: change SITE_URL, set BASE_PATH to "" in
- * src/lib/asset.ts, and drop basePath/assetPrefix from next.config.ts — those
- * three must agree.
+ * Override per-deploy with NEXT_PUBLIC_SITE_URL. Set it to the custom domain
+ * when one is registered.
  */
-export const SITE_URL = "https://shinishgreenenergy-lgtm.github.io";
+export const SITE_URL = (
+  process.env.NEXT_PUBLIC_SITE_URL ?? "https://stellar-global-india.netlify.app"
+).replace(/\/+$/, "");
 
 export { BASE_PATH };
 
