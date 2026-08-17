@@ -349,3 +349,71 @@
     }
   }
 }
+
+@layer utilities {
+  /*
+   * Scroll reveal. Style-only: the element is always in the DOM, so crawlers
+   * and no-JS visitors get the full page.
+   */
+  .marshal-reveal {
+    opacity: 0;
+    transform: translateY(14px);
+    transition:
+      opacity 620ms cubic-bezier(0.22, 1, 0.36, 1),
+      transform 620ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .marshal-reveal[data-revealed="true"] {
+    opacity: 1;
+    transform: none;
+  }
+
+  /* Unconditional visibility, not just "no animation": if the observer never
+     fires, the content must still be readable. */
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-reveal {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
+  }
+}
+
+@layer utilities {
+  @keyframes marshal-marquee {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  /* Fade the entering and leaving edges so items do not pop at the boundary. */
+  .marshal-marquee {
+    mask-image: linear-gradient(to right, transparent 0, #000 5%, #000 95%, transparent 100%);
+  }
+
+  .marshal-marquee-inner {
+    animation: marshal-marquee var(--marquee-duration, 40s) linear infinite;
+  }
+
+  /* Pause on hover or when a child takes focus, so the strip is readable and
+     keyboard users are not chasing a moving target. */
+  .marshal-marquee:hover .marshal-marquee-inner,
+  .marshal-marquee:focus-within .marshal-marquee-inner {
+    animation-play-state: paused;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-marquee-inner {
+      animation: none;
+    }
+    /* Stopped mid-track would clip most of the list off-screen, so hand the
+       reader a scrollable strip instead of a frozen one. */
+    .marshal-marquee {
+      mask-image: none;
+      overflow-x: auto;
+    }
+  }
+}

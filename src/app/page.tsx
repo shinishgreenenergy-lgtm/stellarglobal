@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { SiteNav } from "@/components/marshal/site-nav";
 import { JsonLd } from "@/components/marshal/json-ld";
+import { Reveal } from "@/components/marshal/reveal";
 import { organizationLd, softwareApplicationLd, faqPageLd } from "@/lib/structured-data";
 import { faqs } from "@/lib/marshal-content";
 import { buildMetadata } from "@/lib/seo";
@@ -41,22 +42,48 @@ export default function MarshalPage() {
 
       <SiteNav />
 
+      {/* The hero is above the fold and deliberately unwrapped — it must paint
+          immediately rather than fade in after the observer fires. */}
       <div className="mx-auto max-w-[1240px] px-5">
         <Hero />
-        <IntegrationsStrip />
+        <Reveal>
+          <IntegrationsStrip />
+        </Reveal>
       </div>
 
-      <StatBand />
+      <Reveal>
+        <StatBand />
+      </Reveal>
 
       <div className="mx-auto max-w-[1240px] px-5">
-        <AutomationLibrary />
-        <AnatomyPipeline />
-        <PlatformDisciplines />
-        <FrameworkLibrary />
-        {SHOW_TESTIMONIALS && <Testimonials />}
-        {SHOW_FAQ && <Faq />}
-        <SwitchingAndAssessment />
-        <ClosingCta />
+        <Reveal>
+          <AutomationLibrary />
+        </Reveal>
+        <Reveal>
+          <AnatomyPipeline />
+        </Reveal>
+        <Reveal>
+          <PlatformDisciplines />
+        </Reveal>
+        <Reveal>
+          <FrameworkLibrary />
+        </Reveal>
+        {SHOW_TESTIMONIALS && (
+          <Reveal>
+            <Testimonials />
+          </Reveal>
+        )}
+        {SHOW_FAQ && (
+          <Reveal>
+            <Faq />
+          </Reveal>
+        )}
+        <Reveal>
+          <SwitchingAndAssessment />
+        </Reveal>
+        <Reveal>
+          <ClosingCta />
+        </Reveal>
         <SiteFooter />
       </div>
     </div>

@@ -1,24 +1,15 @@
 import { integrations } from "@/lib/marshal-content";
+import { LogoMarquee } from "@/components/marshal/logo-marquee";
 
 export function IntegrationsStrip() {
   return (
-    <section
-      aria-label="Connected systems"
-      className="border-marshal-divider border-t border-b py-10"
-    >
-      <p className="mb-[18px] text-xs tracking-[0.08em] text-marshal-text/70 uppercase">
+    // "Integrations" rather than "Connected systems": the marquee's own list
+    // already carries that name, and two identical landmarks are confusing.
+    <section aria-label="Integrations" className="border-marshal-divider border-t border-b py-10">
+      <p className="text-marshal-text/70 mb-[18px] text-xs tracking-[0.08em] uppercase">
         Evidence collected automatically from
       </p>
-      <div className="flex flex-wrap gap-x-2 gap-y-2.5">
-        {integrations.map((sys) => (
-          <span
-            key={sys}
-            className="rounded-lg border border-marshal-neutral-800 px-[11px] py-[5px] text-sm text-marshal-text/80"
-          >
-            {sys}
-          </span>
-        ))}
-      </div>
+      <LogoMarquee items={integrations} />
     </section>
   );
 }
