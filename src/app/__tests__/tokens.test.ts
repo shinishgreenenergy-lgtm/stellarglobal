@@ -5,14 +5,20 @@ import path from "node:path";
 const css = readFileSync(path.resolve(import.meta.dirname, "../globals.css"), "utf8");
 
 describe("theme tokens", () => {
-  it("defines a .dark block", () => {
-    expect(css).toMatch(/\.dark\s*\{/);
+  it("is light-only: no dark theme block", () => {
+    expect(css).not.toMatch(/^\s*\.dark\s*\{/m);
   });
 
-  it("no longer hardcodes the dark ground on :root", () => {
-    const rootBlocks = css.match(/:root\s*\{[^}]*\}/g) ?? [];
-    const anyRootIsDark = rootBlocks.some((b) => /--marshal-bg:\s*#121110/.test(b));
-    expect(anyRootIsDark).toBe(false);
+  it("is light-only: does not branch on the OS colour scheme", () => {
+    expect(css).not.toMatch(/@media\s*\(prefers-color-scheme/);
+  });
+
+  it("declares color-scheme light so controls do not auto-darken", () => {
+    expect(css).toMatch(/color-scheme:\s*light/);
+  });
+
+  it("resolves the brand ground to a light value", () => {
+    expect(css).toMatch(/--marshal-bg:\s*#fbfaf7/);
   });
 
   it("keeps the marshal token names stable", () => {
@@ -27,11 +33,7 @@ describe("theme tokens", () => {
     }
   });
 
-  it("honours prefers-color-scheme for visitors who never touch the toggle", () => {
-    expect(css).toMatch(/@media\s*\(prefers-color-scheme:\s*dark\)/);
-  });
-
   it("no longer uses a hover fill that disappears on a light ground", () => {
-    expect(css).not.toContain("hover:bg-white");
+    expect(css).not.toMatch(/hover:bg-white/);
   });
 });

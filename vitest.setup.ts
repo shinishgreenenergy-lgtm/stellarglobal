@@ -21,6 +21,39 @@ class MockIntersectionObserver implements IntersectionObserver {
 }
 vi.stubGlobal("IntersectionObserver", MockIntersectionObserver);
 
+// jsdom 30 under vitest does not expose localStorage even with a real origin,
+// and the theme toggle reads and writes it. A minimal in-memory Storage keeps
+// the tests deterministic and lets each one start from a clean slate.
+class MemoryStorage implements Storage {
+  private map = new Map<string, string>();
+  get length() {
+    return this.map.size;
+  }
+  clear() {
+    this.map.clear();
+  }
+  getItem(key: string) {
+    return this.map.has(key) ? this.map.get(key)! : null;
+  }
+  key(index: number) {
+    return Array.from(this.map.keys())[index] ?? null;
+  }
+  removeItem(key: string) {
+    this.map.delete(key);
+  }
+  setItem(key: string, value: string) {
+    this.map.set(key, String(value));
+  }
+}
+const memoryStorage = new MemoryStorage();
+vi.stubGlobal("localStorage", memoryStorage);
+if (typeof window !== "undefined") {
+  Object.defineProperty(window, "localStorage", {
+    value: memoryStorage,
+    configurable: true,
+  });
+}
+
 vi.stubGlobal(
   "matchMedia",
   vi.fn().mockImplementation((query: string) => ({

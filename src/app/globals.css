@@ -2,19 +2,27 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
-@custom-variant dark (&:is(.dark *));
+/*
+ * The site is light-only, but the vendored shadcn primitives in
+ * src/components/ui ship `dark:` utilities. Tailwind's built-in `dark:`
+ * variant keys off prefers-color-scheme, which would let those styles fire on
+ * a visitor's dark OS and half-darken the UI. Binding the variant to a class
+ * that is never applied keeps them permanently inert without editing vendored
+ * files. Remove this line only if a real dark theme is reintroduced.
+ */
+@custom-variant dark (&:where(.dark, .dark *));
 
 /*
  * Marshal (Stellar Global) design tokens.
  *
- * Light is the default: the brand ramp resolves to a warm paper ground on
- * :root. Dark is the original warm-charcoal treatment, reachable two ways —
- * a .dark class set by the theme toggle, and prefers-color-scheme for
- * visitors who never touch it. The `light` class pins light mode so the
- * toggle can override a dark OS preference.
+ * Light only, by the owner's decision — there is no dark theme, no toggle and
+ * no prefers-color-scheme branch. `color-scheme: light` on :root also stops
+ * the browser from auto-darkening form controls and scrollbars for visitors
+ * whose OS is set to dark.
  *
- * The ramp indirects through plain --marshal-* properties so the theme blocks
- * can reassign them without Tailwind's @theme needing to know about themes.
+ * The ramp still indirects through plain --marshal-* properties: Tailwind's
+ * @theme cannot be redefined per-selector, and the indirection keeps the
+ * palette editable in one block.
  */
 @theme inline {
   --color-background: var(--background);
@@ -96,12 +104,12 @@
 }
 
 /*
- * LIGHT — the default. A warm paper ground rather than pure white, so the
- * ochre accent still reads as part of the same family.
+ * A warm paper ground rather than pure white, so the ochre accent still reads
+ * as part of the same family.
  *
  * Note the accent: #d3a03a on #fbfaf7 is about 2.1:1 and fails WCAG AA for
- * text, so light mode uses the darker end of the ramp for anything that
- * carries meaning, and keeps the bright value for fills and dots only.
+ * text, so anything that carries meaning uses the darker end of the ramp and
+ * the bright value is kept for fills and dots only.
  */
 :root {
   color-scheme: light;
@@ -114,8 +122,9 @@
   --marshal-section-glow: #efe8d8;
   --marshal-section-ghost: #e2d5b4;
 
-  /* Inverted: 100 is the darkest so `bg-marshal-neutral-100` stays the
-     high-contrast fill it is in dark mode, and text-*-500 stays mid-grey. */
+  /* Inverted relative to the original dark palette: 100 is the darkest, so
+     `bg-marshal-neutral-100` is still the high-contrast fill every component
+     already expects it to be, and text-*-500 stays mid-grey. */
   --marshal-neutral-100: #221f1b;
   --marshal-neutral-200: #35302a;
   --marshal-neutral-300: #4e483f;
@@ -177,107 +186,6 @@
   --chart-3: var(--marshal-neutral-400);
   --chart-4: var(--marshal-neutral-500);
   --chart-5: var(--marshal-neutral-600);
-}
-
-/*
- * DARK — the original warm-charcoal brand treatment.
- *
- * The block is written out twice on purpose: once for the .dark class the
- * toggle sets, once inside prefers-color-scheme for visitors who never touch
- * it. `light-dark()` would collapse the duplication, but a browser that does
- * not support it renders every token invalid — unstyled text on no
- * background — and that failure mode is not worth the brevity.
- */
-.dark {
-  color-scheme: dark;
-
-  --marshal-bg: #121110;
-  --marshal-surface: #1c1a18;
-  --marshal-text: #f2efe9;
-  --marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
-  --marshal-section: #1e1a14;
-  --marshal-section-glow: #2e261a;
-  --marshal-section-ghost: #5e4517;
-
-  --marshal-neutral-100: #f7f5f1;
-  --marshal-neutral-200: #e8e4dc;
-  --marshal-neutral-300: #d2ccc1;
-  --marshal-neutral-400: #b0a99c;
-  --marshal-neutral-500: #8d8578;
-  --marshal-neutral-600: #6b6459;
-  --marshal-neutral-700: #4e483f;
-  --marshal-neutral-800: #35302a;
-  --marshal-neutral-900: #221f1b;
-
-  --marshal-accent: #d3a03a;
-  --marshal-accent-2: #e0b866;
-  --marshal-accent-100: #fdf6e6;
-  --marshal-accent-200: #f8e7bf;
-  --marshal-accent-300: #eed392;
-  --marshal-accent-400: #e2ba60;
-  --marshal-accent-500: #d3a03a;
-  --marshal-accent-600: #ad802a;
-  --marshal-accent-700: #86621f;
-  --marshal-accent-800: #5e4517;
-  --marshal-accent-900: #3d2d10;
-
-  --marshal-shadow-md: rgba(0, 0, 0, 0.6);
-  --marshal-shadow-lg: rgba(0, 0, 0, 0.7);
-  --marshal-glow-strength: 15%;
-
-  --primary: #f7f5f1;
-  --primary-foreground: #121110;
-  --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
-  --destructive: oklch(0.704 0.191 22.216);
-  --sidebar-primary: #f7f5f1;
-  --sidebar-primary-foreground: #121110;
-}
-
-@media (prefers-color-scheme: dark) {
-  :root:not(.light) {
-    color-scheme: dark;
-
-    --marshal-bg: #121110;
-    --marshal-surface: #1c1a18;
-    --marshal-text: #f2efe9;
-    --marshal-divider: color-mix(in srgb, #f2efe9 14%, transparent);
-    --marshal-section: #1e1a14;
-    --marshal-section-glow: #2e261a;
-    --marshal-section-ghost: #5e4517;
-
-    --marshal-neutral-100: #f7f5f1;
-    --marshal-neutral-200: #e8e4dc;
-    --marshal-neutral-300: #d2ccc1;
-    --marshal-neutral-400: #b0a99c;
-    --marshal-neutral-500: #8d8578;
-    --marshal-neutral-600: #6b6459;
-    --marshal-neutral-700: #4e483f;
-    --marshal-neutral-800: #35302a;
-    --marshal-neutral-900: #221f1b;
-
-    --marshal-accent: #d3a03a;
-    --marshal-accent-2: #e0b866;
-    --marshal-accent-100: #fdf6e6;
-    --marshal-accent-200: #f8e7bf;
-    --marshal-accent-300: #eed392;
-    --marshal-accent-400: #e2ba60;
-    --marshal-accent-500: #d3a03a;
-    --marshal-accent-600: #ad802a;
-    --marshal-accent-700: #86621f;
-    --marshal-accent-800: #5e4517;
-    --marshal-accent-900: #3d2d10;
-
-    --marshal-shadow-md: rgba(0, 0, 0, 0.6);
-    --marshal-shadow-lg: rgba(0, 0, 0, 0.7);
-    --marshal-glow-strength: 15%;
-
-    --primary: #f7f5f1;
-    --primary-foreground: #121110;
-    --muted-foreground: color-mix(in srgb, #f2efe9 60%, transparent);
-    --destructive: oklch(0.704 0.191 22.216);
-    --sidebar-primary: #f7f5f1;
-    --sidebar-primary-foreground: #121110;
-  }
 }
 
 @layer base {

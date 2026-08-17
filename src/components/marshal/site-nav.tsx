@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { products, frameworksMenu, compareMenu } from "@/lib/marshal-content";
 import { BRAND } from "@/lib/brand";
+import { MarshalLogo } from "@/components/marshal/brand-logo";
 
 const navLinks = [
   { href: "#automations", label: "Automations", current: true },
@@ -35,9 +36,9 @@ export function SiteNav() {
       className="sticky top-0 z-30 flex items-center justify-between gap-6 px-5 py-4 backdrop-blur-md"
       style={{ background: "color-mix(in srgb, var(--color-marshal-bg) 92%, transparent)" }}
     >
-      <span className="font-heading text-sm font-semibold tracking-tight text-marshal-text">
-        {BRAND.company}
-      </span>
+      <a href="#top" aria-label={`${BRAND.product} home`} className="flex shrink-0 items-center">
+        <MarshalLogo className="h-7 w-auto" />
+      </a>
 
       <div className="hidden flex-1 items-center gap-7 md:flex">
         {/* Mega menu trigger + panel — hover/focus-within driven via group, no JS needed to open */}

@@ -7,7 +7,10 @@ export default defineConfig({
   fullyParallel: true,
   reporter: "list",
   use: {
-    baseURL: "http://localhost:3000/stellarglobal",
+    // Bare origin on purpose. Putting the basePath here is a trap: goto("/")
+    // would resolve against the origin and discard it, landing on the 404
+    // page. Navigate via url() from e2e/helpers.ts instead.
+    baseURL: "http://localhost:3000",
     trace: "on-first-retry",
   },
   projects: [

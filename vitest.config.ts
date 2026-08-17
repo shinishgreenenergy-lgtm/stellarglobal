@@ -9,6 +9,9 @@ export default defineConfig({
   esbuild: { jsx: "automatic", jsxImportSource: "react" },
   test: {
     environment: "jsdom",
+    // jsdom defaults to about:blank, which is an opaque origin with no
+    // localStorage. The theme toggle needs real storage, so give it an origin.
+    environmentOptions: { jsdom: { url: "http://localhost:3000/stellarglobal/" } },
     setupFiles: ["./vitest.setup.ts"],
     globals: true,
     include: ["src/**/*.test.{ts,tsx}"],
