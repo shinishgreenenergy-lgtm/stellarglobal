@@ -417,3 +417,23 @@
     }
   }
 }
+
+@layer components {
+  /* Mobile drawer. Stays mounted so it can animate closed as well as open. */
+  .marshal-drawer {
+    transform: translateY(-8px);
+    opacity: 0;
+    transition:
+      opacity 180ms ease-out,
+      transform 180ms ease-out;
+  }
+  .marshal-drawer[data-open="true"] {
+    transform: none;
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .marshal-drawer {
+      transition: none;
+    }
+  }
+}

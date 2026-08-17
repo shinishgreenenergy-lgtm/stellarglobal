@@ -204,9 +204,18 @@ export function SiteNav() {
       </div>
 
       {/* Mobile drawer — same items as the desktop mega menu, per the handoff's note
-          that mobile nav is out of scope of the design but should reuse the items. */}
-      {mobileOpen && (
-        <div className="bg-marshal-bg border-marshal-divider absolute top-full right-0 left-0 flex flex-col gap-1 border-t p-5 md:hidden">
+          that mobile nav is out of scope of the design but should reuse the items.
+
+          Kept mounted and driven by data-open so it can transition in both
+          directions; unmounting on close skips the exit animation entirely.
+          `hidden` still applies when closed, so it stays out of the tab order
+          and off the accessibility tree. */}
+      <div
+        data-open={mobileOpen}
+        hidden={!mobileOpen}
+        className="marshal-drawer bg-marshal-bg border-marshal-divider absolute top-full right-0 left-0 flex flex-col gap-1 border-t p-5 shadow-[0_18px_30px_-24px_var(--marshal-shadow-lg)] md:hidden"
+      >
+        <div className="contents">
           {navLinks.map((l) => (
             <a
               key={l.href}
@@ -232,7 +241,7 @@ export function SiteNav() {
             Book a demo
           </button>
         </div>
-      )}
+      </div>
     </nav>
   );
 }

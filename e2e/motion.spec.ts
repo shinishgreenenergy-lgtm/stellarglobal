@@ -45,3 +45,18 @@ test("the static HTML still carries the content for crawlers", async ({ request 
   expect(html).toContain("Leaver revocation");
   expect(html).toContain("Evidence collected automatically from");
 });
+
+test("mobile drawer opens and closes", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto(url("/"));
+
+  const drawer = page.locator(".marshal-drawer");
+  await expect(drawer).toBeHidden();
+
+  await page.getByRole("button", { name: /open menu/i }).click();
+  await expect(drawer).toBeVisible();
+  await expect(drawer).toHaveAttribute("data-open", "true");
+
+  await page.getByRole("button", { name: /close menu/i }).click();
+  await expect(drawer).toBeHidden();
+});
