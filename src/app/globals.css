@@ -244,3 +244,108 @@
     }
   }
 }
+
+@layer components {
+  /*
+   * Nav chrome.
+   *
+   * At rest the bar is nearly part of the page; once the reader moves, it
+   * earns a hairline and a soft lift so content stops sliding under an
+   * ambiguous edge. Height never changes — the mega menu is positioned from
+   * the nav's bottom, and a shrinking bar would open a gap under it.
+   */
+  .nav-bar {
+    background: color-mix(in srgb, var(--color-marshal-bg) 82%, transparent);
+    border-bottom: 1px solid transparent;
+    transition:
+      background 220ms ease,
+      border-color 220ms ease,
+      box-shadow 220ms ease;
+  }
+  .nav-bar[data-scrolled="true"] {
+    background: color-mix(in srgb, var(--color-marshal-bg) 94%, transparent);
+    border-bottom-color: var(--color-marshal-divider);
+    box-shadow: 0 10px 26px -18px var(--marshal-shadow-lg);
+  }
+
+  /* Link underline grows from the leading edge; the current section keeps it. */
+  .nav-link {
+    position: relative;
+  }
+  .nav-link::after {
+    content: "";
+    position: absolute;
+    inset-inline: 0;
+    bottom: -5px;
+    height: 1.5px;
+    border-radius: 1px;
+    background: var(--color-marshal-accent);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 220ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .nav-link:hover::after,
+  .nav-link:focus-visible::after,
+  .nav-link[aria-current="location"]::after,
+  .nav-link[aria-expanded="true"]::after {
+    transform: scaleX(1);
+  }
+
+  /*
+   * Signature: a scheduled sweep along the nav's bottom hairline.
+   *
+   * The product's claim is that the checks run on their own cadence whether or
+   * not anyone is watching, so the chrome runs on a cadence too. Ambient and
+   * wordless on purpose — it makes no claim about the visitor's estate.
+   */
+  .nav-scan {
+    position: absolute;
+    inset-inline: 0;
+    bottom: -1px;
+    height: 1px;
+    overflow: hidden;
+    pointer-events: none;
+  }
+  .nav-scan::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 18%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      var(--color-marshal-accent) 45%,
+      var(--color-marshal-accent-500) 55%,
+      transparent
+    );
+    animation: nav-scan 9s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+  }
+  @keyframes nav-scan {
+    0% {
+      transform: translateX(-110%);
+      opacity: 0;
+    }
+    8% {
+      opacity: 1;
+    }
+    42% {
+      transform: translateX(560%);
+      opacity: 1;
+    }
+    50%,
+    100% {
+      transform: translateX(560%);
+      opacity: 0;
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .nav-scan {
+      display: none;
+    }
+    .nav-link::after {
+      transition: none;
+    }
+  }
+}

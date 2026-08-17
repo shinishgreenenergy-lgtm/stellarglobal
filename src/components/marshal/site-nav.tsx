@@ -16,6 +16,7 @@ const navLinks = [
 export function SiteNav() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [megaOpen, setMegaOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const megaRef = useRef<HTMLDivElement>(null);
 
   // Esc closes the mega menu regardless of focus location, matching the
@@ -31,12 +32,27 @@ export function SiteNav() {
     return () => document.removeEventListener("keydown", onKey);
   }, []);
 
+  // The bar only earns its hairline and lift once the page has moved, so at
+  // rest it stays part of the hero rather than a band sitting on top of it.
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
   return (
     <nav
-      className="sticky top-0 z-30 flex items-center justify-between gap-6 px-5 py-4 backdrop-blur-md"
-      style={{ background: "color-mix(in srgb, var(--color-marshal-bg) 92%, transparent)" }}
+      data-scrolled={scrolled}
+      className="nav-bar sticky top-0 z-30 flex items-center justify-between gap-6 px-5 py-4 backdrop-blur-md"
     >
-      <a href="#top" aria-label={`${BRAND.product} home`} className="flex shrink-0 items-center">
+      <span className="nav-scan" aria-hidden />
+
+      <a
+        href="#top"
+        aria-label={`${BRAND.product} home`}
+        className="flex shrink-0 items-center rounded-sm transition-opacity hover:opacity-80"
+      >
         <MarshalLogo className="h-7 w-auto" />
       </a>
 
@@ -50,7 +66,7 @@ export function SiteNav() {
         >
           <button
             type="button"
-            className="flex items-center gap-1.5 text-sm text-marshal-text/80 transition-colors hover:text-marshal-accent-300 hover:opacity-100 focus-visible:text-marshal-accent-300"
+            className="nav-link hover:text-marshal-accent-300 focus-visible:text-marshal-accent-300 text-marshal-text/80 flex items-center gap-1.5 text-sm transition-colors"
             aria-expanded={megaOpen}
           >
             Products
@@ -132,7 +148,7 @@ export function SiteNav() {
             key={l.href}
             href={l.href}
             aria-current={l.current ? "location" : undefined}
-            className="text-sm text-marshal-text/80 no-underline transition-colors hover:text-marshal-accent-300 aria-[current=location]:text-marshal-accent-300"
+            className="nav-link hover:text-marshal-accent-300 aria-[current=location]:text-marshal-accent-300 text-marshal-text/80 text-sm no-underline transition-colors"
           >
             {l.label}
           </a>
